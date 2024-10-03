@@ -1,9 +1,9 @@
-# Project for 342
+# Project for 342 (Section II)
 
-| Name | Student Id| Github Username| 
-| ------------- | ------------- | ------------- |
-| Mohamed Saidi | 40248103  | Mohadgb |
-| Adib Akkari   | 40216815  | adssib | 
+| Name | Student Id| Github Username| Email |  
+| ------------- | ------------- | ------------- | ------------- | 
+| Mohamed Saidi | 40248103  | Mohadgb | | 
+| Adib Akkari   | 40216815  | adssib | adibakkari@gmail.com  | 
 
 
 
