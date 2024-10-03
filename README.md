@@ -1,5 +1,6 @@
 # Project for 342 (Section II)
 
+## LMS: Lesson Management System
 | Name | Student Id| Github Username| Email |  
 | ------------- | ------------- | ------------- | ------------- | 
 | Mohamed Saidi | 40248103  | Mohadgb | | 
