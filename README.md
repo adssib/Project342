@@ -3,7 +3,7 @@
 ## LMS: Lesson Management System
 | Name | Student Id| Github Username| Email |  
 | ------------- | ------------- | ------------- | ------------- | 
-| Mohamed Saidi | 40248103  | Mohadgb | | 
+| Mohamed Saidi | 40248103  | Mohadgb | saidimoha.pro@gmail.com | 
 | Adib Akkari   | 40216815  | adssib | adibakkari@gmail.com  | 
 
 
