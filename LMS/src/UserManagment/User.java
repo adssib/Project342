@@ -1,16 +1,30 @@
 package UserManagment;
 
-public class User {
+/**
+ * this class should be abstract because we don't want any class to instantiate it
+ * also we want to force the inheritance
+ */
+public abstract class User {
     protected int UserId;
     protected String UserName;
     protected String UserPassword;
     protected String PhoneNumber;
 
+    //private default constructor
+    private User(){
+        throw new UnsupportedOperationException();
+    }
+    public User(int userId, String user, String password, String phoneNumber) {
+        this.UserId = userId;
+        this.UserName= user;
+        this.UserPassword = password;
+        this.PhoneNumber= phoneNumber;
+    }
+
     public String getUserPassword() {
         return UserPassword;
     }
 
-    //Do we need to hash the password?
     public void setUserPassword(String userPassword) {
         UserPassword = userPassword;
     }
