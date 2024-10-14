@@ -1,0 +1,13 @@
+/out/
+/LMS/.idea/
+/.idea/
+### IntelliJ IDEA ###
+/LMS/out/
+!**/LMS/src/main/**/out/
+!**/LMS/src/test/**/out/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
