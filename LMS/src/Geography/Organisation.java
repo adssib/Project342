@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class Organisation {
     private final String name;
+
+    //This should be Spaces not Locations
     private ArrayList<Location> locations;
 
     private ArrayList<Instructor> instructors;
