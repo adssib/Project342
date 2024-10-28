@@ -9,27 +9,27 @@ public class Organisation {
     private final String name;
 
     //This should be Spaces not Locations
-    private ArrayList<Location> locations;
+    private ArrayList<Space> Spaces;
 
     private ArrayList<Instructor> instructors;
     private ArrayList<Offering> offerings;
 
     public Organisation(String name) {
         this.name = name;
-        this.locations=new ArrayList<Location>();
+        this.Spaces=new ArrayList<Space>();
     }
 
     public String getName() {
         return name;
     }
-    public ArrayList<Location> getLocations() {
-        return locations;
+    public ArrayList<Space> getLocations() {
+        return Spaces;
     }
-    public void addLocation(Location location) {
-        locations.add(location);
+    public void addLocation(Space space) {
+        Spaces.add(space);
     }
-    public void setLocations(ArrayList<Location> loc){
-        this.locations=loc;
+    public void setLocations(ArrayList<Space> loc){
+        this.Spaces=loc;
     }
     public void setOfferings(ArrayList<Offering> offer){
         this.offerings=offer;

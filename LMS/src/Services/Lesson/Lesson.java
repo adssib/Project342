@@ -4,7 +4,7 @@ import Geography.Location;
 
 public abstract class Lesson {
     protected int LessonId ;
-    protected String TypeOfLesson ;
+    protected String TypeOfLesson ; //Swimming, Ping Pong, ..... etc
     protected Location location;
 
     public Location getLocation() {
