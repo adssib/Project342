@@ -2,6 +2,5 @@ package Services.Lesson;
 
 public class PrivateLesson {
 
-    private final int Lessonsize = 1 ;
-    private boolean isFull = false;
+    private final int LessonSize = 1 ;
 }

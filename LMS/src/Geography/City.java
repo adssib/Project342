@@ -1,6 +1,7 @@
 package Geography;
 
 public class City {
+    private int CityID;
     String CityName;
 
     public City(String CityName) {
@@ -13,6 +14,14 @@ public class City {
 
     public void setCityName(String CityName) {
         this.CityName = CityName;
+    }
+
+    public int getCityID() {
+        return CityID;
+    }
+
+    public void setCityID(int CityID) {
+        this.CityID = CityID;
     }
 
 }

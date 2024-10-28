@@ -1,21 +1,21 @@
 package Geography;
 
 import Services.Lesson.Lesson;
-import TimeManagement.Scheduale;
+import TimeManagement.Schedule;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Location {
 
-    private List<Scheduale> schedualeList ;
+    private List<Schedule> scheduleList;
     private City city;
     private Lesson lesson ;
 
     public Location(City city, Lesson lesson) {
         this.city = city;
         this.lesson = lesson;
-        schedualeList = new ArrayList<>();
+        scheduleList = new ArrayList<>();
     }
 
     public City getCity() {
@@ -26,8 +26,8 @@ public class Location {
         return lesson;
     }
 
-    public List<Scheduale> getSchedualeList() {
-        return schedualeList;
+    public List<Schedule> getSchedualeList() {
+        return scheduleList;
     }
 
     public void setCity(City city) {
@@ -38,7 +38,7 @@ public class Location {
         this.lesson = lesson;
     }
 
-    public void setSchedualeList(List<Scheduale> schedualeList) {
-        this.schedualeList = schedualeList;
+    public void setSchedualeList(List<Schedule> scheduleList) {
+        this.scheduleList = scheduleList;
     }
 }

@@ -2,12 +2,10 @@ package Services.Lesson;
 
 public class PublicLesson {
 
-    private int size ;
-    private Boolean isFull ;
+    private int size;
 
-    public PublicLesson(int size, Boolean isFull) {
+    public PublicLesson(int size) {
         this.size = size;
-        this.isFull = isFull;
     }
 
     public int getSize() {
@@ -16,12 +14,5 @@ public class PublicLesson {
 
     public void setSize(int size) {
         this.size = size;
-    }
-
-    public Boolean getIsFull() {
-        return isFull;
-    }
-    public void setIsFull(Boolean isFull) {
-        this.isFull = isFull;
     }
 }
