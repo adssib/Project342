@@ -3,11 +3,15 @@ package Services;
 import Geography.Location;
 import Services.Lesson.Lesson;
 
+import java.util.List;
+
 public class Offering {
 
     private int OfferingId;
     private Lesson lesson;
     private Location location;
+    private List<Offering> AllOfferings ;
+    private List<Offering> PublicOfferings ;
 
     public Offering(int OfferingId, Lesson lesson, Location location) {
         this.OfferingId = OfferingId;
