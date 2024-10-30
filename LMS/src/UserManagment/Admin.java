@@ -28,7 +28,6 @@ public class Admin extends User {
 
     public void createOffering(Location location, LocalDate date, LocalTime startTime, LocalTime endTime, Lesson lesson) {
         int newOfferingId = getNextOfferingId();
-        Offering newOffering = new Offering(newOfferingId, lesson, location);
 
         // Find or create the schedule for the given date
         Schedule schedule = location.getSchedules().stream()
@@ -40,14 +39,16 @@ public class Admin extends User {
                     return newSchedule;
                 });
 
-        // Create and add the new time slot
+        // Create the new time slot
         TimeSlots newTimeSlot = new TimeSlots(startTime, endTime);
         schedule.addTimeSlot(newTimeSlot);
+
+        // Create the new offering with the schedule
+        Offering newOffering = new Offering(newOfferingId, lesson, location, schedule);
 
         offerings.add(newOffering);
         System.out.println("New offering created with ID: " + newOfferingId + " for " + date + " from " + startTime + " to " + endTime);
     }
-
 
     public void deleteOffering(int offeringId) {
         offerings.removeIf(offering -> offering.getOfferingId() == offeringId);

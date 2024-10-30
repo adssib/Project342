@@ -13,6 +13,11 @@ public class Schedule {
         this.timeSlots = new ArrayList<>();
     }
 
+    public Schedule(LocalDate now, ArrayList<TimeSlots> timeSlots) {
+        this.date = now;
+        this.timeSlots = timeSlots;
+    }
+
     public void addTimeSlot(TimeSlots timeSlot) {
         timeSlots.add(timeSlot);
     }

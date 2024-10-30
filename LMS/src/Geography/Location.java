@@ -10,39 +10,35 @@ public class Location {
 
     private List<Schedule> schedules;
     private City city;
-    private Lesson lesson ; //Can this be List of lessons?
-    private int LessonId ;
+    private List<Lesson> lessons;
+    private int LocationID;
 
-    public Location(int lessonId, City city, Lesson lesson) {
+    public Location(int locationId, City city) {
+        this.LocationID = locationId;
         this.city = city;
-        this.lesson = lesson;
+        this.lessons = new ArrayList<>();
         this.schedules = new ArrayList<>();
-        this.LessonId = lessonId;
+    }
+
+    public void addLesson(Lesson lesson) {
+        this.lessons.add(lesson);
     }
 
     public City getCity() {
         return city;
     }
 
-    public Lesson getLesson() {
-        return lesson;
-    }
-
-
     public void setCity(City city) {
         this.city = city;
     }
 
-    public void setLesson(Lesson lesson) {
-        this.lesson = lesson;
+
+    public void setLocationID(int locationID) {
+        LocationID = locationID;
     }
 
-    public void setLessonId(int lessonId) {
-        LessonId = lessonId;
-    }
-
-    public int getLessonId() {
-        return LessonId;
+    public int getLocationID() {
+        return LocationID;
     }
 
     public void addSchedule(Schedule schedule) {
@@ -58,5 +54,13 @@ public class Location {
 
     public void setSchedules(List<Schedule> schedules) {
         this.schedules = schedules;
+    }
+
+    public List<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(List<Lesson> lessons) {
+        this.lessons = lessons;
     }
 }

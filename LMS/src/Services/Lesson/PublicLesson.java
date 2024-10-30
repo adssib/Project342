@@ -4,9 +4,8 @@ import Geography.Location;
 
 public class PublicLesson extends Lesson{
 
-    public PublicLesson(int LessonId, Location l, String description, int size){
+    public PublicLesson(int LessonId, String description, int size){
         this.size = size;
-        this.location = l ;
         this.LessonId = LessonId;
         this.TypeOfLesson = description;
     }

@@ -2,30 +2,35 @@ package Services;
 
 import Geography.Location;
 import Services.Lesson.*;
+import UserManagment.Instructor;
+import TimeManagement.Schedule;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Offering {
 
-    private int OfferingId;
+    private int offeringId;
     private Lesson lesson;
     private Location location;
-    private static List<Offering> AllOfferings ;
-    private List<Offering> PublicOfferings ;
+    private Schedule schedule;
+    private Instructor instructor;
+    private boolean isAvailable;
+    private static List<Offering> allOfferings = new ArrayList<>();
     private List<Booking> bookings;
 
-    public Offering(int OfferingId, Lesson lesson, Location location) {
-        this.OfferingId = OfferingId;
+    public Offering(int offeringId, Lesson lesson, Location location, Schedule schedule) {
+        this.offeringId = offeringId;
         this.lesson = lesson;
         this.location = location;
-        AllOfferings = new ArrayList<Offering>();
-        this.PublicOfferings = new ArrayList<Offering>();
-        this.bookings = new ArrayList<Booking>();
+        this.schedule = schedule;
+        this.isAvailable = false; // Not available until an instructor takes it
+        this.bookings = new ArrayList<>();
+        allOfferings.add(this);
     }
 
     public int getOfferingId() {
-        return OfferingId;
+        return offeringId;
     }
 
     public Lesson getLesson() {
@@ -36,47 +41,46 @@ public class Offering {
         return location;
     }
 
-    public void setLesson(Lesson lesson) {
-        this.lesson = lesson;
+    public Schedule getSchedule() {
+        return schedule;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public Instructor getInstructor() {
+        return instructor;
     }
 
-    public void setAllOfferings(List<Offering> allOfferings) {
-        AllOfferings = allOfferings;
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
+        this.isAvailable = true; // Offering becomes available when an instructor takes it
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
     public static List<Offering> getAllOfferings() {
-        return AllOfferings;
-    }
-
-    public void setOfferingId(int offeringId) {
-        OfferingId = offeringId;
-    }
-
-    public void setPublicOfferings(List<Offering> publicOfferings) {
-        PublicOfferings = publicOfferings;
-    }
-
-    public List<Offering> getPublicOfferings() {
-        return PublicOfferings;
+        return allOfferings;
     }
 
     public List<Booking> getBookings() {
         return bookings;
     }
 
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
+    public void addBooking(Booking booking) {
+        if (isAvailable && !isFull()) {
+            this.bookings.add(booking);
+            if (isFull()) {
+                this.isAvailable = false; // Mark as unavailable if full
+            }
+        }
     }
 
     public boolean isFull() {
         if (lesson instanceof PrivateLesson) {
-            return !bookings.isEmpty(); // Private lesson is full if there's any booking
+            return !bookings.isEmpty();
         } else {
-            return bookings.size() >= lesson.getSize(); // Public lesson is full if bookings reach or exceed the size
+            return bookings.size() >= ((PublicLesson)lesson).getSize();
         }
     }
+
 }

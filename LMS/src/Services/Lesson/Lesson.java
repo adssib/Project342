@@ -5,16 +5,7 @@ import Geography.Location;
 public abstract class Lesson {
     protected int LessonId ;
     protected String TypeOfLesson ; //Swimming, Ping Pong, ..... etc
-    protected Location location;
     protected int size;
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
 
     public String getTypeOfLesson() {
         return TypeOfLesson;

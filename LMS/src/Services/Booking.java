@@ -1,5 +1,6 @@
 package Services;
 
+import UserManagment.Child;
 import UserManagment.Client;
 
 public class Booking {
@@ -12,6 +13,13 @@ public class Booking {
         this.bookingID = bookingID;
         this.client = client;
         this.offering = offering;
+    }
+
+    public Booking(int bookingID, Offering randomOffering, Client parent, Child randomChild) {
+        this.bookingID = bookingID;
+        this.client = parent;
+        this.offering = randomOffering;
+        this.client.addChild(randomChild);
     }
 
     public int getBookingID() {

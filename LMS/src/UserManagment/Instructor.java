@@ -43,23 +43,13 @@ public class Instructor extends User {
         Specialisation = specialisation;
     }
 
-    public void TakeOffering(int OfferingId) {
-        // Assuming we have access to all offerings
-        List<Offering> allOfferings = Offering.getAllOfferings(); // This needs to be implemented in Offering class
-
-        Offering offeringToTake = null;
-        for (Offering offering : allOfferings) {
-            if (offering.getOfferingId() == OfferingId) {
-                offeringToTake = offering;
-                break;
-            }
+    public boolean takeOffering(Offering offering) {
+        if (this.Available.contains(offering.getLocation().getCity()) &&
+                this.Specialisation.equals(offering.getLesson().getTypeOfLesson())) {
+            offering.setInstructor(this);
+            this.TakenOfferings.add(offering);
+            return true;
         }
-
-        if (offeringToTake != null) {
-            TakenOfferings.add(offeringToTake);
-            System.out.println("Offering " + OfferingId + " has been taken.");
-        } else {
-            System.out.println("Offering " + OfferingId + " not found.");
-        }
+        return false;
     }
 }
