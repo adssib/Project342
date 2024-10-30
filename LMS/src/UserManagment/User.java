@@ -52,4 +52,8 @@ public abstract class User {
     public void setPhoneNumber(String phoneNumber) {
         PhoneNumber = phoneNumber;
     }
+
+    public boolean logIn(String GivenUserName, String GivenPassword) {
+        return GivenUserName.equals(this.UserName) && GivenPassword.equals(this.UserPassword);
+    }
 }
