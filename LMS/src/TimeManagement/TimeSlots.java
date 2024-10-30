@@ -21,4 +21,12 @@ public class TimeSlots {
     public LocalTime getEndTime() {
         return endTime;
     }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
 }

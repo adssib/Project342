@@ -8,14 +8,16 @@ import java.util.List;
 
 public class Location {
 
-    private List<Schedule> scheduleList;
+    private List<Schedule> schedules;
     private City city;
-    private Lesson lesson ;
+    private Lesson lesson ; //Can this be List of lessons?
+    private int LessonId ;
 
-    public Location(City city, Lesson lesson) {
+    public Location(int lessonId, City city, Lesson lesson) {
         this.city = city;
         this.lesson = lesson;
-        scheduleList = new ArrayList<>();
+        this.schedules = new ArrayList<>();
+        this.LessonId = lessonId;
     }
 
     public City getCity() {
@@ -26,9 +28,6 @@ public class Location {
         return lesson;
     }
 
-    public List<Schedule> getSchedualeList() {
-        return scheduleList;
-    }
 
     public void setCity(City city) {
         this.city = city;
@@ -38,7 +37,26 @@ public class Location {
         this.lesson = lesson;
     }
 
-    public void setSchedualeList(List<Schedule> scheduleList) {
-        this.scheduleList = scheduleList;
+    public void setLessonId(int lessonId) {
+        LessonId = lessonId;
+    }
+
+    public int getLessonId() {
+        return LessonId;
+    }
+
+    public void addSchedule(Schedule schedule) {
+        if (this.schedules == null) {
+            this.schedules = new ArrayList<>();
+        }
+        this.schedules.add(schedule);
+    }
+
+    public List<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
     }
 }

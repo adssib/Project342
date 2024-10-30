@@ -24,4 +24,12 @@ public class Schedule {
     public LocalDate getDate() {
         return date;
     }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setTimeSlots(List<TimeSlots> timeSlots) {
+        this.timeSlots = timeSlots;
+    }
 }

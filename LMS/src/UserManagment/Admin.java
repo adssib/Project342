@@ -3,9 +3,15 @@ package UserManagment;
 import Geography.Location;
 import Services.Booking;
 import Services.Offering;
+import Services.Lesson.Lesson;
+import TimeManagement.Schedule;
+import TimeManagement.TimeSlots;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Admin extends User {
 
@@ -15,14 +21,37 @@ public class Admin extends User {
 
     public Admin(int userId, String user, String password, String phoneNumber) {
         super(userId, user, password, phoneNumber);
+        this.users = new ArrayList<>();
+        this.bookings = new ArrayList<>();
+        this.offerings = new ArrayList<>();
     }
 
-    public void createOffering(Location location, Date date, String timeSlot) {
-        // Implementation to create and add an offering
+    public void createOffering(Location location, LocalDate date, LocalTime startTime, LocalTime endTime, Lesson lesson) {
+        int newOfferingId = getNextOfferingId();
+        Offering newOffering = new Offering(newOfferingId, lesson, location);
+
+        // Find or create the schedule for the given date
+        Schedule schedule = location.getSchedules().stream()
+                .filter(s -> s.getDate().equals(date))
+                .findFirst()
+                .orElseGet(() -> {
+                    Schedule newSchedule = new Schedule(date);
+                    location.addSchedule(newSchedule);
+                    return newSchedule;
+                });
+
+        // Create and add the new time slot
+        TimeSlots newTimeSlot = new TimeSlots(startTime, endTime);
+        schedule.addTimeSlot(newTimeSlot);
+
+        offerings.add(newOffering);
+        System.out.println("New offering created with ID: " + newOfferingId + " for " + date + " from " + startTime + " to " + endTime);
     }
+
 
     public void deleteOffering(int offeringId) {
-        // Implementation to delete an offering by its ID
+        offerings.removeIf(offering -> offering.getOfferingId() == offeringId);
+        System.out.println("Offering with ID " + offeringId + " has been deleted if it existed.");
     }
 
     public List<User> viewUsers() {
@@ -30,7 +59,8 @@ public class Admin extends User {
     }
 
     public void deleteUser(int userId) {
-        // Implementation to delete a user by its ID
+        users.removeIf(user -> user.getUserId() == userId);
+        System.out.println("User with ID " + userId + " has been deleted if they existed.");
     }
 
     public List<Booking> viewBookings() {
@@ -38,7 +68,8 @@ public class Admin extends User {
     }
 
     public void deleteBooking(int bookingId) {
-        // Implementation to delete a booking by its ID
+        bookings.removeIf(booking -> booking.getBookingID() == bookingId);
+        System.out.println("Booking with ID " + bookingId + " has been deleted if it existed.");
     }
 
     public List<Booking> getBookings() {
@@ -64,21 +95,41 @@ public class Admin extends User {
     public void setUsers(List<User> users) {
         this.users = users;
     }
-    /**
-     * TODO
-     * + CreateOffering(l : Location, d: Date, timeSlot : String) : void
-     * + DeleteOffering(OfferingId : int) : void
-     * + viewUsers() : List<Users>
-     * + DeleteUser(UserId : int) : void
-     * + ViewBookings() : List<Bookings>
-     * + DeleteBookings(BookingId : int) : void
-     * + getBookings() : List<Booking>
-     * + setBookings(bookings: List<Booking>) : void
-     * + getOfferings() : List<Offering>
-     * + setOfferings(offerings: List<Offering>) : void
-     * + getUsers() : List<Users>
-     * +setUsers(users: List<Users>) : void
-     *
-     * + admin(Username: String , password: String, phoneNumeber: String)
-     */
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+    }
+
+    public User findUserById(int userId) {
+        return users.stream()
+                .filter(user -> user.getUserId() == userId)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Offering findOfferingById(int offeringId) {
+        return offerings.stream()
+                .filter(offering -> offering.getOfferingId() == offeringId)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Booking findBookingById(int bookingId) {
+        return bookings.stream()
+                .filter(booking -> booking.getBookingID() == bookingId)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private int getNextOfferingId() {
+        return offerings.stream()
+                .filter(Objects::nonNull)
+                .mapToInt(Offering::getOfferingId)
+                .max()
+                .orElse(0) + 1;
+    }
 }

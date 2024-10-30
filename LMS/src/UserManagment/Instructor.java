@@ -8,15 +8,15 @@ import java.util.List;
 
 public class Instructor extends User {
 
-    private List<City> Available ;
-    private List<Offering> TakenOfferings ;
+    private List<City> Available;
+    private List<Offering> TakenOfferings;
     private String Specialisation;
 
     public Instructor(int userId, String user, String password, String phoneNumber, String specialisation) {
         super(userId, user, password, phoneNumber);
         this.Specialisation = specialisation;
         this.Available = new ArrayList<City>();
-        this.TakenOfferings = new ArrayList<Offering>() ;
+        this.TakenOfferings = new ArrayList<Offering>();
     }
 
     public List<City> getAvailable() {
@@ -43,19 +43,23 @@ public class Instructor extends User {
         Specialisation = specialisation;
     }
 
-    public void TakeOffering(int OfferingId){
-        //Search for the correct offering
-        //add it to the taken offerings Class
+    public void TakeOffering(int OfferingId) {
+        // Assuming we have access to all offerings
+        List<Offering> allOfferings = Offering.getAllOfferings(); // This needs to be implemented in Offering class
+
+        Offering offeringToTake = null;
+        for (Offering offering : allOfferings) {
+            if (offering.getOfferingId() == OfferingId) {
+                offeringToTake = offering;
+                break;
+            }
+        }
+
+        if (offeringToTake != null) {
+            TakenOfferings.add(offeringToTake);
+            System.out.println("Offering " + OfferingId + " has been taken.");
+        } else {
+            System.out.println("Offering " + OfferingId + " not found.");
+        }
     }
-    /**
-     * TODO:
-     * + TakeOffering(OfferingId : int) : void
-     * + viewOfferings() : void
-     * + viewTakenOffering() : void DONE
-     * + getAvaibleCities() : List<City> DONE
-     * + setAvaibleCities( c : List<City>) : void DONE
-     * + getSpecfication() : String DONE
-     * + setSpecification( spec : String) : void DONE
-     * + Instructor(Username: String , password: String, phoneNumeber: String, spec: String , cities: List<City> ) DONE
-     */
 }
