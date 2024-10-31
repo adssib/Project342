@@ -30,8 +30,20 @@ public class OrganisationData {
         ArrayList<Location> locations = LocationDataGenerator.generateLocations(cities);
         ArrayList<Space> spaces = SpaceDataGenerator.generateSpaces(locations);
         ArrayList<Instructor> instructors = InstructorDataGenerator.generateInstructors();
-        ArrayList<Offering> offerings = OfferingDataGenerator.generateOfferings(spaces, instructors);
         ArrayList<Client> clients = ClientDataGenerator.generateClients();
+        ArrayList<Child> children = ClientDataGenerator.generateChildren(clients);
+        ArrayList<Lesson> lessons = LessonDataGenerator.generateLessons();
+        ArrayList<Schedule> schedules = ScheduleDataGenerator.generateSchedules();
+
+        // Assign lessons to locations
+        for (Location location : locations) {
+            for (Lesson lesson : lessons) {
+                location.addLesson(lesson);
+            }
+        }
+
+        ArrayList<Offering> offerings = OfferingDataGenerator.generateOfferings(spaces, instructors);
+        ArrayList<Booking> bookings = BookingDataGenerator.generateBookings(offerings, clients, children);
 
         ArrayList<User> userList = new ArrayList<User>();
         userList.addAll(instructors);
@@ -40,10 +52,11 @@ public class OrganisationData {
         org.setSpaces(spaces);
         org.setInstructors(instructors);
         org.setOfferings(offerings);
-
-        // You might want to set clients and userList to org as well if needed
-         org.setClients(clients);
-         org.setUsers(userList);
+        org.setClients(clients);
+        org.setUsers(userList);
+        org.setBookings(bookings);
+        org.setLessons(lessons);
+        org.setSchedule(schedules);
     }
 
     public static Organisation getOrganisation() {

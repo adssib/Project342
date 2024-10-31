@@ -7,14 +7,11 @@ public class Menu {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void generateMenu(User user) {
-        if (user instanceof Admin) {
-            adminMenu((Admin) user);
-        } else if (user instanceof Instructor) {
-            instructorMenu((Instructor) user);
-        } else if (user instanceof Client) {
-            clientMenu((Client) user);
-        } else {
-            System.out.println("Unknown user type");
+        switch (user) {
+            case Admin admin -> adminMenu(admin);
+            case Instructor instructor -> instructorMenu(instructor);
+            case Client client -> clientMenu(client);
+            case null, default -> System.out.println("Unknown user type");
         }
     }
 
@@ -24,7 +21,7 @@ public class Menu {
             System.out.println("\nAdmin Menu");
             System.out.println("1. Manage Users");
             System.out.println("2. Manage Offerings");
-            System.out.println("3. View Reports");
+            System.out.println("3. Manage Bookings");
             System.out.println("4. Logout");
             System.out.print("Choose an option: ");
 

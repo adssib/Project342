@@ -5,8 +5,10 @@ public class Child {
     private String Name;
     private int Age;
 
-    public Child(Client Parent) {
+    public Child(Client Parent, String Name, int Age) {
         this.Parent = Parent;
+        this.Name = Name;
+        this.Age = Age;
     }
 
     public Client getParent() {

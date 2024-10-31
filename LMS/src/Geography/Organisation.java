@@ -1,6 +1,9 @@
 package Geography;
 
+import Services.Booking;
+import Services.Lesson.Lesson;
 import Services.Offering;
+import TimeManagement.Schedule;
 import UserManagment.Client;
 import UserManagment.Instructor;
 import UserManagment.User;
@@ -16,6 +19,9 @@ public class Organisation {
     private ArrayList<Offering> offerings;
     private ArrayList<User> users;
     private ArrayList<Client> clients;
+    private ArrayList<Booking> Bookings;
+    private ArrayList<Lesson> lessons;
+    private ArrayList<Schedule> schedule;
 
     public Organisation(String name) {
         this.name = name;
@@ -78,5 +84,29 @@ public class Organisation {
 
     public void addUser(Client newClient) {
         this.users.add(newClient);
+    }
+
+    public ArrayList<Booking> getBookings() {
+        return Bookings;
+    }
+
+    public void setBookings(ArrayList<Booking> bookings) {
+        Bookings = bookings;
+    }
+
+    public void setLessons(ArrayList<Lesson> lessons) {
+        this.lessons = lessons;
+    }
+
+    public void setSchedule(ArrayList<Schedule> schedule) {
+        this.schedule = schedule;
+    }
+
+    public ArrayList<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public ArrayList<Schedule> getSchedule() {
+        return schedule;
     }
 }

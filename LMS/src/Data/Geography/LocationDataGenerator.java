@@ -10,15 +10,22 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 public class LocationDataGenerator {
     private static int locationIdCounter = 1;
 
     public static ArrayList<Location> generateLocations(ArrayList<City> cities) {
         ArrayList<Location> locations = new ArrayList<>();
-        Random random = new Random();
-        for (int i = 0; i < 5; i++) {
-            City randomCity = cities.get(random.nextInt(cities.size()));
-            Location location = new Location(locationIdCounter++, randomCity);
+
+        if (cities.isEmpty()) {
+            System.out.println("Cannot generate locations: cities list is empty");
+            return locations;
+        }
+
+        int cityIndex = 0;
+        for (int i = 0; i < 4; i++) {
+            City city = cities.get(cityIndex);
+            Location location = new Location(locationIdCounter++, city);
 
             // Add some schedules to the location
             for (int j = 0; j < 3; j++) {
@@ -28,6 +35,7 @@ public class LocationDataGenerator {
             }
 
             locations.add(location);
+            cityIndex = (cityIndex + 1) % cities.size();
         }
         return locations;
     }

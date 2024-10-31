@@ -4,7 +4,6 @@ import UserManagment.User;
 import UserManagment.Client;
 import UserManagment.Admin;
 import Services.Offering;
-import Services.Lesson.PublicLesson;
 import java.util.Scanner;
 import java.util.List;
 
@@ -93,7 +92,7 @@ public class Main {
         List<Offering> offerings = Offering.getAllOfferings();
         System.out.println("\nPublic Offerings:");
         for (Offering offering : offerings) {
-            if (offering.getLesson() instanceof PublicLesson && offering.isAvailable()) {
+            if (offering.isAvailable()) {
                 System.out.println("Offering : " + offering.toString());
                 System.out.println("--------------------");
             }

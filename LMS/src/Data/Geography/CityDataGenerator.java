@@ -10,6 +10,8 @@ public class CityDataGenerator {
         cities.add(new City("Montreal"));
         cities.add(new City("Toronto"));
         cities.add(new City("Vancouver"));
+        cities.add(new City("Russia"));
+        cities.add(new City("New York"));
         // Add more cities as needed
         return cities;
     }
