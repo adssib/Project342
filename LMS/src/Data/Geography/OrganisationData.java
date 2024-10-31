@@ -17,33 +17,39 @@ import TimeManagement.Schedule;
 import java.util.ArrayList;
 
 public class OrganisationData {
-    public static Organisation generateOrganisationData() {
-        Organisation org = new Organisation("Learning Center");
+    private static Organisation org;
+
+    private OrganisationData() {
+        // Private constructor to prevent instantiation
+    }
+
+    public static void generateOrganisationData() {
+        org = new Organisation("Learning Center");
 
         ArrayList<City> cities = CityDataGenerator.generateCities();
-
-        ArrayList<Schedule> schedules = ScheduleDataGenerator.generateSchedules();
         ArrayList<Location> locations = LocationDataGenerator.generateLocations(cities);
         ArrayList<Space> spaces = SpaceDataGenerator.generateSpaces(locations);
-        ArrayList<Lesson> lessons = LessonDataGenerator.generateLessons();
         ArrayList<Instructor> instructors = InstructorDataGenerator.generateInstructors();
         ArrayList<Offering> offerings = OfferingDataGenerator.generateOfferings(spaces, instructors);
         ArrayList<Client> clients = ClientDataGenerator.generateClients();
-        ArrayList<Child> children = ClientDataGenerator.generateChildren(clients);
-        ArrayList<Booking> bookings = BookingDataGenerator.generateBookings(offerings, clients, children);
 
-        ArrayList<User> UserList = new ArrayList<User>() ;
-
-        // Add all instructors to the userList
-        UserList.addAll(instructors);
-
-        // Add all clients to the userList
-        UserList.addAll(clients);
+        ArrayList<User> userList = new ArrayList<User>();
+        userList.addAll(instructors);
+        userList.addAll(clients);
 
         org.setSpaces(spaces);
         org.setInstructors(instructors);
         org.setOfferings(offerings);
 
+        // You might want to set clients and userList to org as well if needed
+         org.setClients(clients);
+         org.setUsers(userList);
+    }
+
+    public static Organisation getOrganisation() {
+        if (org == null) {
+            generateOrganisationData();
+        }
         return org;
     }
 }

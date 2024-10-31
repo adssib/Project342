@@ -1,7 +1,9 @@
 package Geography;
 
 import Services.Offering;
+import UserManagment.Client;
 import UserManagment.Instructor;
+import UserManagment.User;
 
 import java.util.ArrayList;
 
@@ -12,6 +14,8 @@ public class Organisation {
 
     private ArrayList<Instructor> instructors;
     private ArrayList<Offering> offerings;
+    private ArrayList<User> users;
+    private ArrayList<Client> clients;
 
     public Organisation(String name) {
         this.name = name;
@@ -54,5 +58,25 @@ public class Organisation {
 
     public ArrayList<Space> getSpaces() {
         return Spaces;
+    }
+
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public void setClients(ArrayList<Client> clients) {
+        this.clients = clients;
+    }
+
+    public ArrayList<Client> getClients() {
+        return clients;
+    }
+
+    public void addUser(Client newClient) {
+        this.users.add(newClient);
     }
 }

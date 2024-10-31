@@ -19,6 +19,10 @@ public class Instructor extends User {
         this.TakenOfferings = new ArrayList<Offering>();
     }
 
+    public void addCity(City city) {
+        Available.add(city);
+    }
+
     public List<City> getAvailable() {
         return Available;
     }
