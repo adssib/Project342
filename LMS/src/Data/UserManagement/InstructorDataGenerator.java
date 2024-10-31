@@ -1,15 +1,27 @@
 package Data.UserManagement;
 
+import Geography.City;
 import UserManagment.Instructor;
 
 import java.util.ArrayList;
 
 public class InstructorDataGenerator {
-    public static ArrayList<Instructor> generateInstructors() {
+    public static ArrayList<Instructor> generateInstructors(ArrayList<City> cities) {
         ArrayList<Instructor> instructors = new ArrayList<>();
-        instructors.add(new Instructor(1, "John Doe", "password123", "1234567890", "Swimming"));
-        instructors.add(new Instructor(2, "Jane Smith", "password456", "0987654321", "Yoga"));
-        instructors.add(new Instructor(3, "Bob Johnson", "password789", "1122334455", "Fitness"));
+
+        Instructor instructor1 = new Instructor(1, "John", "John", "1234567890", "Swimming");
+        Instructor instructor2 = new Instructor(2, "Smith", "Smith", "0987654321", "Yoga");
+        Instructor instructor3 = new Instructor(3, "Bob", "Bob", "1122334455", "Fitness");
+
+        instructor1.setAvailable(cities);
+        instructor2.setAvailable(cities);
+        instructor3.setAvailable(cities);
+
+        instructors.add(instructor1);
+        instructors.add(instructor2);
+        instructors.add(instructor3);
+
+
         return instructors;
     }
 }

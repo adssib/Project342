@@ -8,7 +8,6 @@ import TimeManagement.TimeSlots;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public class LocationDataGenerator {
@@ -25,6 +24,7 @@ public class LocationDataGenerator {
         int cityIndex = 0;
         for (int i = 0; i < 4; i++) {
             City city = cities.get(cityIndex);
+
             Location location = new Location(locationIdCounter++, city);
 
             // Add some schedules to the location

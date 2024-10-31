@@ -4,18 +4,18 @@ import Geography.Location;
 import Geography.Space;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class SpaceDataGenerator {
     public static ArrayList<Space> generateSpaces(ArrayList<Location> locations) {
         ArrayList<Space> spaces = new ArrayList<>();
-        Random random = new Random();
-        String[] spaceTypes = {"Classroom", "Gym", "Pool", "Studio"};
+        String[] spaceTypes = {"Classroom", "Gym", "Pool"};
+        int typeIndex = 0;
+
         for (Location location : locations) {
-            String randomSpaceType = spaceTypes[random.nextInt(spaceTypes.length)];
-            spaces.add(new Space(randomSpaceType, location));
+            String spaceType = spaceTypes[typeIndex];
+            spaces.add(new Space(spaceType, location));
+            typeIndex = (typeIndex + 1) % spaceTypes.length;
         }
         return spaces;
     }
-
 }

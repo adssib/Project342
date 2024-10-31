@@ -2,7 +2,34 @@ import UserManagment.*;
 import Services.* ;
 import Geography.* ;
 
+import java.util.List;
 import java.util.Scanner;
+
+/**
+ * TO DO List of Features:
+ *  1. Log out for all users
+ *  for admin:
+ *      1. View Users
+ *      2. View bookings
+ *      3. View Offerings
+ *      4. Delete User
+ *  for instructors:
+ *      1. View Account
+ *      2. View Taken Offerings
+ *      3. take New Offerings
+ *      4. View Profile
+ *  for Clients:
+ *      1. View Made Bookings
+ *      2. View Public Offerings
+ *      3. Make a booking
+ *      4. Make a booking for a child
+ *      5. Manage Children list (add, delete)
+ * Things to take care off:
+ *  for admin when creating offering make sure it is unique
+ *  for instructor, taking an offering means it should be in one of his available Cities
+ *  for client no booking on the same date nor same time for 2 things is allowed
+ */
+
 public class Menu {
     private static Scanner scanner = new Scanner(System.in);
 
@@ -22,7 +49,7 @@ public class Menu {
             System.out.println("1. Manage Users");
             System.out.println("2. Manage Offerings");
             System.out.println("3. Manage Bookings");
-            System.out.println("4. Logout");
+            System.out.println("4. Logout"); //Done
             System.out.print("Choose an option: ");
 
             int choice = scanner.nextInt();
@@ -36,7 +63,7 @@ public class Menu {
                     System.out.println("Managing Offerings...");
                     break;
                 case 3:
-                    System.out.println("Viewing Reports...");
+                    System.out.println("Manage Bookings...");
                     break;
                 case 4:
                     System.out.println("Logging out...");
@@ -65,8 +92,13 @@ public class Menu {
             switch (choice) {
                 case 1:
                     System.out.println("Viewing Available Cities...");
-                    for (City city : instructor.getAvailable()) {
-                        System.out.println(city.getCityName());
+                    List<City> cities= instructor.getAvailable();
+                    if(cities.isEmpty()){
+                        System.out.println("No cities available");
+                    }else {
+                        for (City city : cities) {
+                            System.out.println(city.getCityName());
+                        }
                     }
                     break;
                 case 2:
@@ -134,7 +166,7 @@ public class Menu {
                     break;
                 case 5:
                     System.out.println("Managing Children...");
-//                    for (Child child : client.getListOfChildrens()) {
+//                    for (Child, child : client.getListOfChildrens()) {
 //                        System.out.println("Child Name: " + child. + ", Age: " + child.getAge());
 //                    }
                     // Implement logic to add/remove children

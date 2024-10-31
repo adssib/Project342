@@ -29,7 +29,7 @@ public class OrganisationData {
         ArrayList<City> cities = CityDataGenerator.generateCities();
         ArrayList<Location> locations = LocationDataGenerator.generateLocations(cities);
         ArrayList<Space> spaces = SpaceDataGenerator.generateSpaces(locations);
-        ArrayList<Instructor> instructors = InstructorDataGenerator.generateInstructors();
+        ArrayList<Instructor> instructors = InstructorDataGenerator.generateInstructors(cities);
         ArrayList<Client> clients = ClientDataGenerator.generateClients();
         ArrayList<Child> children = ClientDataGenerator.generateChildren(clients);
         ArrayList<Lesson> lessons = LessonDataGenerator.generateLessons();

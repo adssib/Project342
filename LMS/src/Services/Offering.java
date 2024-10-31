@@ -83,4 +83,15 @@ public class Offering {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Offering{" +
+                "ID=" + offeringId +
+                ", Lesson='" + (lesson != null ? lesson.getTypeOfLesson() : "Not assigned") + '\'' +
+                ", Location='" + (location != null ? location.getCity().toString() : "Not assigned") + '\'' +
+                ", Schedule=" + (schedule != null ? schedule.getDate().toString() + schedule.getTimeSlots().toString(): "Not scheduled") +
+                ", Instructor=" + (instructor != null ? instructor.getUserName() : "Not assigned") +
+                ", Available=" + isAvailable +
+                '}';
+    }
 }

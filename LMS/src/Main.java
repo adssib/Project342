@@ -4,6 +4,8 @@ import UserManagment.User;
 import UserManagment.Client;
 import UserManagment.Admin;
 import Services.Offering;
+
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.List;
 
@@ -32,7 +34,18 @@ public class Main {
             System.out.println("4. Exit");
             System.out.print("Choose an option: ");
 
-            int choice = scanner.nextInt();
+            int choice = 0 ;
+            boolean isCorrectInput = true;
+            while(isCorrectInput) {
+                try{
+                    choice = scanner.nextInt();
+                    isCorrectInput = false;
+                }catch(InputMismatchException e){
+                    System.out.println("Please enter a valid Number!");
+                    break;
+                }
+            }
+
             scanner.nextLine(); // Consume newline
 
             switch (choice) {

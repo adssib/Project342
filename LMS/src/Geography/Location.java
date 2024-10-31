@@ -63,4 +63,12 @@ public class Location {
     public void setLessons(List<Lesson> lessons) {
         this.lessons = lessons;
     }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "ID=" + getLocationID() +
+                ", City=" + (city != null ? city.getCityName() : "Not assigned") +
+                '}';
+    }
 }
