@@ -1,7 +1,5 @@
 package Services.Lesson;
 
-import Geography.Location;
-
 public abstract class Lesson {
     protected int LessonId ;
     protected String TypeOfLesson ; //Swimming, Ping Pong, ..... etc

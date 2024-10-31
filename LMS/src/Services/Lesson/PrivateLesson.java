@@ -1,7 +1,5 @@
 package Services.Lesson;
 
-import Geography.Location;
-
 public class PrivateLesson extends Lesson{
 
     public PrivateLesson(int LessonId, String TypeOfLesson) {
