@@ -37,4 +37,22 @@ public class Schedule {
     public void setTimeSlots(List<TimeSlots> timeSlots) {
         this.timeSlots = timeSlots;
     }
+
+    public boolean overlaps(Schedule other) {
+        // First, check if the dates are the same
+        if (!this.date.equals(other.getDate())) {
+            return false;
+        }
+
+        // If dates are the same, check for time slot overlaps
+        for (TimeSlots thisSlot : this.timeSlots) {
+            for (TimeSlots otherSlot : other.getTimeSlots()) {
+                if (thisSlot.overlaps(otherSlot)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

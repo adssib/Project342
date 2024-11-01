@@ -69,9 +69,13 @@ public class Offering {
     public void addBooking(Booking booking) {
         if (isAvailable && !isFull()) {
             this.bookings.add(booking);
-            if (isFull()) {
-                this.isAvailable = false; // Mark as unavailable if full
-            }
+        }
+    }
+
+    public void removeBooking(Booking booking) {
+        bookings.remove(booking);
+        if (!isFull()) {
+            this.setAvailable(true);
         }
     }
 

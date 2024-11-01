@@ -29,4 +29,8 @@ public class TimeSlots {
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
+
+    public boolean overlaps(TimeSlots other) {
+        return !(this.endTime.isBefore(other.startTime) || this.startTime.isAfter(other.endTime));
+    }
 }

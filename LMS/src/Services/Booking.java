@@ -5,21 +5,23 @@ import UserManagment.Client;
 
 public class Booking {
 
+    private static int nextBookingId = 1;
     private int bookingID;
     private Client client;
     private Offering offering;
+    private Child child;
 
-    public Booking(int bookingID, Client client, Offering offering) {
-        this.bookingID = bookingID;
+    public Booking(Client client, Offering offering) {
+        this.bookingID = nextBookingId++;
         this.client = client;
         this.offering = offering;
     }
 
-    public Booking(int bookingID, Offering randomOffering, Client parent, Child randomChild) {
-        this.bookingID = bookingID;
-        this.client = parent;
-        this.offering = randomOffering;
-        this.client.addChild(randomChild);
+    public Booking(Offering offering, Client client, Child child) {
+        this.bookingID = nextBookingId++;
+        this.client = client;
+        this.offering = offering;
+        this.child = child;
     }
 
     public int getBookingID() {
