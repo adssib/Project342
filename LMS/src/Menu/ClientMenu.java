@@ -1,7 +1,11 @@
 package Menu;
 
+import Data.Geography.OrganisationData;
+import Services.Booking;
+import Services.Offering;
 import UserManagment.Client;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ClientMenu {
@@ -16,6 +20,7 @@ public class ClientMenu {
             System.out.println("4. View Profile");
             System.out.println("5. Manage Children");
             System.out.println("6. Logout");
+            System.out.println("7. Logout");
             System.out.print("Choose an option: ");
 
             int choice = scanner.nextInt();
@@ -23,18 +28,15 @@ public class ClientMenu {
             switch (choice) {
                 case 1:
                     System.out.println("Viewing Bookings...");
-//                    for (Booking booking : client.getListOfBooks()) {
-//                        System.out.println("Booking ID: " + booking.getBookingId() +
-//                                ", Offering: " + booking.getOffering().getLesson().getName());
-//                    }
+                    ViewBookings(client);
                     break;
                 case 2:
                     System.out.println("Making a Booking...");
-                    // Implement logic to make a booking
+                    MakeBooking(client); 
                     break;
                 case 3:
                     System.out.println("Viewing Public Offerings...");
-                    // Call method to view public offerings
+                    ViewPublicOfferings();
                     break;
                 case 4:
                     System.out.println("Viewing Profile...");
@@ -44,12 +46,13 @@ public class ClientMenu {
                     break;
                 case 5:
                     System.out.println("Managing Children...");
-//                    for (Child, child : client.getListOfChildrens()) {
-//                        System.out.println("Child Name: " + child. + ", Age: " + child.getAge());
-//                    }
-                    // Implement logic to add/remove children
+                    ManageChildren(client);
                     break;
                 case 6:
+                    System.out.println("Canceling Booking...");
+
+                    break;
+                case 7:
                     System.out.println("Logging out...");
                     isDone = true;
                     break;
@@ -57,6 +60,40 @@ public class ClientMenu {
                     System.out.println("Invalid option. Please try again.");
             }
 
+        }
+    }
+
+    private static void ManageChildren(Client client) {
+    }
+
+    private static void MakeBooking(Client client) {
+    }
+
+    private static void ViewBookings(Client client) {
+        List<Booking> ClientBookings = client.getListOfBooks();
+        if(ClientBookings.isEmpty()) {
+            System.out.println("No bookings found");
+        }else{
+            for (Booking booking : ClientBookings) {
+                System.out.println(booking.toString());
+            }
+        }
+    }
+
+    private static void ViewPublicOfferings() {
+        List<Offering> Offerings = OrganisationData.getOrganisation().getOfferings();
+        if(Offerings.isEmpty()) {
+            System.out.println("No Offerings found");
+        }else{
+            for (Offering offering : Offerings) {
+                if(offering.isAvailable() ){
+                    if(offering.isFull()){
+                        System.out.println("UNAVAILABLE OFFERING " + offering.toString());
+                    }else{
+                        System.out.println(offering.toString());
+                    }
+                }
+            }
         }
     }
 }

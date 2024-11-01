@@ -19,16 +19,18 @@ import java.util.Scanner;
  *      2. View Taken Offerings DONE
  *      3. take New Offerings DONE
  *      4. View Profile DONE
+ *      5. Manage Available cities DONE
  *  for Clients:
- *      1. View Made Bookings
- *      2. View Public Offerings
+ *      1. View Made Bookings DONE
+ *      2. View Public Offerings DONE
  *      3. Make a booking
- *      4. Make a booking for a child DONE
+ *      4. Make a booking for a child
  *      5. Manage Children list (add, delete)
+ *      6. Cancel booking
  * Things to take care off:
- *  for admin when creating offering make sure it is unique
- *  for instructor, taking an offering means it should be in one of his available Cities
- *  for client no booking on the same date nor same time for 2 things is allowed
+ *      for admin when creating offering make sure it is unique
+ *      for instructor, taking an offering means it should be in one of his available Cities DONE
+ *      for client no booking on the same date nor same time for 2 things is allowed
  */
 
 public class Menu {
