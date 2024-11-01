@@ -24,6 +24,14 @@ public class Booking {
         this.child = child;
     }
 
+    public Child getChild() {
+        return child;
+    }
+
+    public void setChild(Child child) {
+        this.child = child;
+    }
+
     public int getBookingID() {
         return bookingID;
     }

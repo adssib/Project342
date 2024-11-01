@@ -23,10 +23,10 @@ import java.util.Scanner;
  *  for Clients:
  *      1. View Made Bookings DONE
  *      2. View Public Offerings DONE
- *      3. Make a booking
- *      4. Make a booking for a child
- *      5. Manage Children list (add, delete)
- *      6. Cancel booking
+ *      3. Make a booking DONE
+ *      4. Make a booking for a child DONE
+ *      5. Manage Children list (add, delete) DONE
+ *      6. Cancel booking DONE
  * Things to take care off:
  *      for admin when creating offering make sure it is unique
  *      for instructor, taking an offering means it should be in one of his available Cities DONE

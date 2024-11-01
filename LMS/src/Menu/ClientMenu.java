@@ -158,7 +158,8 @@ public class ClientMenu {
 
         System.out.println("Available offerings:");
         for (int i = 0; i < availableOfferings.size(); i++) {
-            System.out.println((i + 1) + ". " + availableOfferings.get(i).toString());
+            Offering offering = availableOfferings.get(i);
+            System.out.println((i + 1) + ". " + offering.toString() + " - Available seats: " + offering.getAvailableSeats());
         }
 
         System.out.print("Enter the number of the offering you want to book (0 to cancel): ");
@@ -173,6 +174,11 @@ public class ClientMenu {
                 return;
             }
 
+            if (selectedOffering.getAvailableSeats() == 0) {
+                System.out.println("Sorry, this offering is now full. Please choose another.");
+                return;
+            }
+
             Booking newBooking;
             if (choice == 1) {
                 newBooking = new Booking(client, selectedOffering);
@@ -184,7 +190,7 @@ public class ClientMenu {
 
             client.addBooking(newBooking);
             selectedOffering.addBooking(newBooking);
-            System.out.println("Booking made successfully.");
+            System.out.println("Booking made successfully. Remaining seats: " + selectedOffering.getAvailableSeats());
         } else if (offeringChoice != 0) {
             System.out.println("Invalid selection. Please try again.");
         }
@@ -192,14 +198,15 @@ public class ClientMenu {
 
     private static List<Offering> getAvailableOfferings() {
         List<Offering> allOfferings = OrganisationData.getOrganisation().getOfferings();
-        List<Offering> availableOfferings = new ArrayList<Offering>();
+        List<Offering> availableOfferings = new ArrayList<>();
         for (Offering offering : allOfferings) {
-            if (offering.isAvailable() && !offering.isFull()) {
+            if (offering.isAvailable() && offering.getAvailableSeats() > 0) {
                 availableOfferings.add(offering);
             }
         }
         return availableOfferings;
     }
+
 
     private static boolean hasConflictingBooking(Client client, Offering newOffering) {
         for (Booking existingBooking : client.getListOfBooks()) {

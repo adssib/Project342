@@ -16,7 +16,8 @@ public class Offering {
     private Schedule schedule;
     private Instructor instructor;
     private boolean isAvailable;
-    private static List<Offering> allOfferings = new ArrayList<>();
+    private int totalSeats;
+    private int bookedSeats;
     private List<Booking> bookings;
 
     public Offering(int offeringId, Lesson lesson, Location location, Schedule schedule) {
@@ -24,25 +25,75 @@ public class Offering {
         this.lesson = lesson;
         this.location = location;
         this.schedule = schedule;
-        this.isAvailable = false; // Not available until an instructor takes it
+        this.isAvailable = true;
+        this.totalSeats = 10; // Default value, you can change this or make it a parameter
+        this.bookedSeats = 0;
         this.bookings = new ArrayList<>();
-        allOfferings.add(this);
     }
 
-    public int getOfferingId() {
-        return offeringId;
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+        bookedSeats++;
+        if (isFull()) {
+            this.setAvailable(false);
+        }
     }
 
-    public Lesson getLesson() {
-        return lesson;
+    public void removeBooking(Booking booking) {
+        if (bookings.remove(booking)) {
+            bookedSeats--;
+            if (!isFull()) {
+                this.setAvailable(true);
+            }
+        }
+    }
+
+    public boolean isFull() {
+        return bookedSeats >= totalSeats;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable && !isFull();
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public int getAvailableSeats() {
+        return totalSeats - bookedSeats;
     }
 
     public Location getLocation() {
         return location;
     }
 
+    public int getOfferingId() {
+        return offeringId;
+    }
+
+    public void setOfferingId(int offeringId) {
+        this.offeringId = offeringId;
+    }
+
+    public Lesson getLesson() {
+        return lesson;
+    }
+
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
+    }
+
     public Schedule getSchedule() {
         return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public Instructor getInstructor() {
@@ -51,55 +102,42 @@ public class Offering {
 
     public void setInstructor(Instructor instructor) {
         this.instructor = instructor;
-        this.isAvailable = true; // Offering becomes available when an instructor takes it
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
+    public int getBookedSeats() {
+        return bookedSeats;
     }
 
-    public static List<Offering> getAllOfferings() {
-        return allOfferings;
+    public void setBookedSeats(int bookedSeats) {
+        this.bookedSeats = bookedSeats;
+    }
+
+    public int getTotalSeats() {
+        return totalSeats;
+    }
+
+    public void setTotalSeats(int totalSeats) {
+        this.totalSeats = totalSeats;
     }
 
     public List<Booking> getBookings() {
         return bookings;
     }
 
-    public void addBooking(Booking booking) {
-        if (isAvailable && !isFull()) {
-            this.bookings.add(booking);
-        }
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 
-    public void removeBooking(Booking booking) {
-        bookings.remove(booking);
-        if (!isFull()) {
-            this.setAvailable(true);
-        }
-    }
-
-    public boolean isFull() {
-        if (lesson instanceof PrivateLesson) {
-            return !bookings.isEmpty();
-        } else {
-            return bookings.size() >= ((PublicLesson)lesson).getSize();
-        }
-    }
 
     @Override
     public String toString() {
         return "Offering{" +
-                "ID=" + offeringId +
-                ", Lesson='" + (lesson != null ? lesson.getTypeOfLesson() : "Not assigned") + '\'' +
-                ", Location='" + (location != null ? location.getCity().toString() : "Not assigned") + '\'' +
-                ", Schedule=" + (schedule != null ? schedule.getDate().toString() + schedule.getTimeSlots().toString(): "Not scheduled") +
-                ", Instructor=" + (instructor != null ? instructor.getUserName() : "Not assigned") +
-                ", Available=" + isAvailable +
+                "id=" + offeringId +
+                ", lesson=" + lesson.getTypeOfLesson() +
+                ", location=" + location.getCity().getCityName() +
+                ", schedule=" + schedule.getDate() +
+                ", instructor=" + (instructor != null ? instructor.getUserName() : "Not assigned") +
+                ", availableSeats=" + getAvailableSeats() +
                 '}';
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
     }
 }
