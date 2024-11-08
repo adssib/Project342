@@ -1,0 +1,46 @@
+@startuml
+left to right direction
+
+package "LessonManagement System" {
+    package "UserManagement" {
+        class User
+        class Instructor
+        class Client
+        class Child
+        class admin
+        class UserCatalogue
+    }
+
+    package "Services" {
+        class Lesson
+        class PrivateLesson
+        class PublicLesson
+        class LessonCatalogue
+        class Booking
+        class BookingCatalogue
+        class Offering
+        class OfferingCatalogue
+    }
+
+    package "Geography" {
+        class Location
+        class City
+        class LocationCatalogue
+        class CityCatalogue
+    }
+
+    package "TimeManagement" {
+        class Schedule
+        class TimeSlot
+        class ScheduleCatalogue
+    }
+
+    ' Relationships between packages
+    "UserManagement" ..> "Services"
+    "UserManagement" ..> "Geography"
+    "UserManagement" ..> "TimeManagement"
+    "Services" ..> "Geography"
+    "Geography" ..> "TimeManagement"
+}
+
+@enduml

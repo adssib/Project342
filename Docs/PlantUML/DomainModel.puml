@@ -1,0 +1,64 @@
+@startuml
+
+' Defining Classes
+class User {}
+class Instructor {}
+class Client {}
+class Child {}
+class admin {}
+class Location {}
+class Lesson{}
+class PrivateLesson {}
+class PublicLesson {}
+class Offering {}
+class City {}
+class Booking {}
+class TimeSlot {}
+class Schedule {}
+
+' Defining Catalogues
+class ScheduleCatalogue {}
+class UserCatalogue {}
+class LessonCatalogue {}
+class OfferingCatalogue {}
+class BookingCatalogue {}
+class LocationCatalogue {}
+class CityCatalogue {}
+
+' Aggregations
+User *-- UserCatalogue
+Schedule *-- ScheduleCatalogue
+Lesson *-- LessonCatalogue
+Offering *-- OfferingCatalogue
+Booking *-- BookingCatalogue
+Location *-- LocationCatalogue
+City *-- CityCatalogue
+
+' Associations of Admin with the Catalogues
+admin -- UserCatalogue : Read-Delete
+admin -- LessonCatalogue : Create-Read-Delete
+admin -- OfferingCatalogue : View
+admin -- BookingCatalogue : View
+admin -- LocationCatalogue : View
+admin -- CityCatalogue : View
+admin -- ScheduleCatalogue : View
+
+' Inheritance
+Client <|-- User
+Instructor <|-- User
+PrivateLesson <|-- Lesson
+PublicLesson <|-- Lesson
+
+' Multiplicities
+Client "1" -- "0. .*" Child : has
+Schedule "1" -- "1. .*" TimeSlot : Made-Of
+Location "*" -- "1" City
+Location "1" -- "*" Schedule
+Location "1" -- "*" Lesson
+Instructor "1" -- "*" City
+
+' Association Class
+(Client, Offering) .. Booking
+(Lesson, Instructor) .. Offering
+
+@enduml

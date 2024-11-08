@@ -1,0 +1,7 @@
+@startuml
+
+together{
+    [User]
+}
+
+@enduml
