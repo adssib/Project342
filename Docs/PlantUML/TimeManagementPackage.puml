@@ -1,0 +1,14 @@
+@startuml
+
+package "TimeManagement" {
+    entity TimeSlot {}
+    entity Schedule {}
+    entity ScheduleCatalogue {}
+}
+
+UserManagement.admin -- ScheduleCatalogue : View >
+Schedule *-- ScheduleCatalogue
+Schedule "1" -- "1. .*" TimeSlot : Made-Of >
+Geography.Location "1" -- "*" Schedule : have <
+
+@enduml

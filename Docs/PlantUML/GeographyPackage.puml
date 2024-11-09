@@ -1,7 +1,18 @@
 @startuml
+package "Geography"{
 
-together{
-    [User]
+    entity Location {}
+    entity City {}
+    entity LocationCatalogue {}
+    entity CityCatalogue {}
+
+    Location *-- LocationCatalogue
+    City *-- CityCatalogue
 }
 
+UserManagement.admin -- CityCatalogue : View >
+UserManagement.admin -- LocationCatalogue : View >
+Location "*" -- "1" City : >
+Location "1" -- "*" Service.Schedule : have <
+Location "1" -- "*" Service.Lesson: have <
 @enduml

@@ -1,46 +1,79 @@
 @startuml
+
 left to right direction
+' top to bottom direction
 
-package "LessonManagement System" {
-    package "UserManagement" {
-        class User
-        class Instructor
-        class Client
-        class Child
-        class admin
-        class UserCatalogue
-    }
-
-    package "Services" {
-        class Lesson
-        class PrivateLesson
-        class PublicLesson
-        class LessonCatalogue
-        class Booking
-        class BookingCatalogue
-        class Offering
-        class OfferingCatalogue
-    }
-
-    package "Geography" {
-        class Location
-        class City
-        class LocationCatalogue
-        class CityCatalogue
-    }
-
-    package "TimeManagement" {
-        class Schedule
-        class TimeSlot
-        class ScheduleCatalogue
-    }
-
-    ' Relationships between packages
-    "UserManagement" ..> "Services"
-    "UserManagement" ..> "Geography"
-    "UserManagement" ..> "TimeManagement"
-    "Services" ..> "Geography"
-    "Geography" ..> "TimeManagement"
+package "Service"{
+    entity Lesson
+    entity PrivateLesson
+    entity PublicLesson
+    entity Offering
+    entity Booking
+    entity LessonCatalogue
+    entity OfferingCatalogue
+    entity BookingCatalogue
 }
+package "UserManagement"{
+    entity User
+    entity Instructor
+    entity Client
+    entity Child
+    entity admin
+    entity UserCatalogue
+}
+
+package "TimeManagement" {
+    entity TimeSlot {}
+    entity Schedule {}
+    entity ScheduleCatalogue {}
+}
+
+package "Geography"{
+
+    entity Location {}
+    entity City {}
+    entity LocationCatalogue {}
+    entity CityCatalogue {}
+
+    Location *-- LocationCatalogue
+    City *-- CityCatalogue
+}
+
+Lesson *-- LessonCatalogue
+Offering *-- OfferingCatalogue
+Booking *-- BookingCatalogue
+
+User *-- UserCatalogue
+Client <|-- User
+Instructor <|-- User
+Client "1" -- "0. .*" Child : has >
+
+(Client, Service.Offering) .. Booking
+(Lesson, Instructor) .. Offering
+
+admin -- UserCatalogue : Read-Delete >
+admin -- LessonCatalogue : Create-Read-Delete >
+admin -- OfferingCatalogue : View >
+admin -- BookingCatalogue : View >
+admin -- Geography.LocationCatalogue : View >
+admin -- Geography.CityCatalogue : View >
+admin -- TimeManagement.ScheduleCatalogue : View >
+
+Geography.Location "1" -- "*" Lesson: have <
+
+PrivateLesson <|-- Lesson
+PublicLesson <|-- Lesson
+
+UserManagement.admin -- ScheduleCatalogue : View >
+Schedule *-- ScheduleCatalogue
+Schedule "1" -- "1. .*" TimeSlot : Made-Of >
+Geography.Location "1" -- "*" Schedule : have <
+
+
+UserManagement.admin -- CityCatalogue : View >
+UserManagement.admin -- LocationCatalogue : View >
+Location "*" -- "1" City : >
+Location "1" -- "*" Service.Schedule : have <
+Location "1" -- "*" Service.Lesson: have <
 
 @enduml

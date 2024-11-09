@@ -1,29 +1,29 @@
 @startuml
 
 ' Defining Classes
-class User {}
-class Instructor {}
-class Client {}
-class Child {}
-class admin {}
-class Location {}
-class Lesson{}
-class PrivateLesson {}
-class PublicLesson {}
-class Offering {}
-class City {}
-class Booking {}
-class TimeSlot {}
-class Schedule {}
+entity User {}
+entity Instructor {}
+entity Client {}
+entity Child {}
+entity admin {}
+entity Location {}
+entity Lesson{}
+entity PrivateLesson {}
+entity PublicLesson {}
+entity Offering {}
+entity City {}
+entity Booking {}
+entity TimeSlot {}
+entity Schedule {}
 
 ' Defining Catalogues
-class ScheduleCatalogue {}
-class UserCatalogue {}
-class LessonCatalogue {}
-class OfferingCatalogue {}
-class BookingCatalogue {}
-class LocationCatalogue {}
-class CityCatalogue {}
+entity ScheduleCatalogue {}
+entity UserCatalogue {}
+entity LessonCatalogue {}
+entity OfferingCatalogue {}
+entity BookingCatalogue {}
+entity LocationCatalogue {}
+entity CityCatalogue {}
 
 ' Aggregations
 User *-- UserCatalogue
@@ -35,13 +35,13 @@ Location *-- LocationCatalogue
 City *-- CityCatalogue
 
 ' Associations of Admin with the Catalogues
-admin -- UserCatalogue : Read-Delete
-admin -- LessonCatalogue : Create-Read-Delete
-admin -- OfferingCatalogue : View
-admin -- BookingCatalogue : View
-admin -- LocationCatalogue : View
-admin -- CityCatalogue : View
-admin -- ScheduleCatalogue : View
+admin -- UserCatalogue : Read-Delete >
+admin -- LessonCatalogue : Create-Read-Delete >
+admin -- OfferingCatalogue : View >
+admin -- BookingCatalogue : View >
+admin -- LocationCatalogue : View >
+admin -- CityCatalogue : View >
+admin -- ScheduleCatalogue : View >
 
 ' Inheritance
 Client <|-- User
@@ -50,12 +50,12 @@ PrivateLesson <|-- Lesson
 PublicLesson <|-- Lesson
 
 ' Multiplicities
-Client "1" -- "0. .*" Child : has
-Schedule "1" -- "1. .*" TimeSlot : Made-Of
-Location "*" -- "1" City
-Location "1" -- "*" Schedule
-Location "1" -- "*" Lesson
-Instructor "1" -- "*" City
+Client "1" -- "0. .*" Child : has >
+Schedule "1" -- "1. .*" TimeSlot : Made-Of >
+Location "*" -- "1" City : >
+Location "1" -- "*" Schedule : have <
+Location "1" -- "*" Lesson: have <
+Instructor "1" -- "*" City: have >
 
 ' Association Class
 (Client, Offering) .. Booking

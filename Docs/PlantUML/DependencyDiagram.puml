@@ -1,0 +1,45 @@
+@startuml
+
+package "LessonManagement System" {
+    package "UserManagement" {
+        [User]
+        [Instructor]
+        [Client]
+        [Child]
+        [admin]
+        [UserCatalogue]
+    }
+
+    package "Services" {
+        [Lesson]
+        [PrivateLesson]
+        [PublicLesson]
+        [LessonCatalogue]
+        [Booking]
+        [BookingCatalogue]
+        [Offering]
+        [OfferingCatalogue]
+    }
+
+    package "Geography" {
+        [Location]
+        [City]
+        [LocationCatalogue]
+        [CityCatalogue]
+    }
+
+    package "TimeManagement" {
+        [Schedule]
+        [TimeSlot]
+        [ScheduleCatalogue]
+    }
+
+    ' Relationships between packages
+    "UserManagement" ..> "Services"
+    "UserManagement" ..> "Geography"
+    "UserManagement" ..> "TimeManagement"
+    "Services" ..> "Geography"
+    "Geography" ..> "TimeManagement"
+}
+
+@enduml
