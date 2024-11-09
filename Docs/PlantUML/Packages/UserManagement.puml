@@ -1,0 +1,17 @@
+@startuml
+
+package "UserManagement" {
+    entity User
+    entity Instructor
+    entity Client
+    entity Child
+    entity Admin
+    entity UserCatalogue
+
+    User *-- UserCatalogue
+    Client <|-- User
+    Instructor <|-- User
+    Client "1" -- "0..*" Child : has >
+}
+
+@enduml

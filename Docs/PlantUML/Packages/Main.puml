@@ -1,0 +1,26 @@
+@startuml
+
+left to right direction
+
+!include Services.puml
+!include UserManagement.puml
+!include TimeManagement.puml
+!include Geography.puml
+
+' Inter-package relationships
+(UserManagement.Client, Service.Offering) .. Service.Booking
+(Service.Lesson, UserManagement.Instructor) .. Service.Offering
+
+UserManagement.Admin -- UserManagement.UserCatalogue : Read-Delete >
+UserManagement.Admin -- Service.LessonCatalogue : Create-Read-Delete >
+UserManagement.Admin -- Service.OfferingCatalogue : View >
+UserManagement.Admin -- Service.BookingCatalogue : View >
+UserManagement.Admin -- Geography.LocationCatalogue : View >
+UserManagement.Admin -- Geography.CityCatalogue : View >
+UserManagement.Admin -- TimeManagement.ScheduleCatalogue : View >
+
+Geography.Location "1" -- "*" Service.Lesson: have <
+Geography.Location "1" -- "*" TimeManagement.Schedule : have <
+Geography.Location "1" -- "*" Service.Schedule : have <
+
+@enduml

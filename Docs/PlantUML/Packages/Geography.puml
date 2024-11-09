@@ -1,0 +1,14 @@
+@startuml
+
+package "Geography" {
+    entity Location
+    entity City
+    entity LocationCatalogue
+    entity CityCatalogue
+
+    Location *-- LocationCatalogue
+    City *-- CityCatalogue
+    Location "*" -- "1" City : >
+}
+
+@enduml

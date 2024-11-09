@@ -1,0 +1,20 @@
+@startuml
+
+package "Service" {
+    entity Lesson
+    entity PrivateLesson
+    entity PublicLesson
+    entity Offering
+    entity Booking
+    entity LessonCatalogue
+    entity OfferingCatalogue
+    entity BookingCatalogue
+
+    Lesson *-- LessonCatalogue
+    Offering *-- OfferingCatalogue
+    Booking *-- BookingCatalogue
+    PrivateLesson <|-- Lesson
+    PublicLesson <|-- Lesson
+}
+
+@enduml
