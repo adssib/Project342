@@ -55,7 +55,7 @@ public class Main {
                     register();
                     break;
                 case 3:
-                    viewPublicOfferings();
+                    //viewPublicOfferings();
                     break;
                 case 4:
                     System.out.println("Goodbye!");
@@ -101,14 +101,14 @@ public class Main {
         System.out.println("Registration successful! You can now login.");
     }
 
-    private static void viewPublicOfferings() {
-        List<Offering> offerings = Offering.getAllOfferings();
-        System.out.println("\nPublic Offerings:");
-        for (Offering offering : offerings) {
-            if (offering.isAvailable()) {
-                System.out.println("Offering : " + offering.toString());
-                System.out.println("--------------------");
-            }
-        }
-    }
+//    private static void viewPublicOfferings() {
+//        List<Offering> offerings = Offering.getAllOfferings();
+//        System.out.println("\nPublic Offerings:");
+//        for (Offering offering : offerings) {
+//            if (offering.isAvailable()) {
+//                System.out.println("Offering : " + offering.toString());
+//                System.out.println("--------------------");
+//            }
+//        }
+ //   }
 }
