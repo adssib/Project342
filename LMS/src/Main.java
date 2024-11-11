@@ -1,3 +1,5 @@
+import Menu.AdminMenu;
+
 import java.sql.*;
 import java.util.Scanner;
 
@@ -100,7 +102,7 @@ public class Main {
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     System.out.println("Login successful! Welcome, " + username + ".");
-                    AdminMenu();  // Redirect to AdminMenu
+                    AdminMenu.displayAdminMenu();  // Redirect to AdminMenu
                     return;
                 }
             }
