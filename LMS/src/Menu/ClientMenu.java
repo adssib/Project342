@@ -19,10 +19,8 @@ public class ClientMenu {
             System.out.println("1. View Bookings");
             System.out.println("2. Make a Booking");
             System.out.println("3. View Public Offerings");
-            System.out.println("4. View Profile");
-            System.out.println("5. Manage Children");
-            System.out.println("6. Cancel Booking");
-            System.out.println("7. Logout");
+            System.out.println("4. Cancel Booking");
+            System.out.println("5. Logout");
             System.out.print("Choose an option: ");
 
             int choice = scanner.nextInt();
@@ -39,15 +37,9 @@ public class ClientMenu {
                     viewPublicOfferings();
                     break;
                 case 4:
-                    viewProfile();
-                    break;
-                case 5:
-                    manageChildren();
-                    break;
-                case 6:
                     cancelBooking();
                     break;
-                case 7:
+                case 5:
                     System.out.println("Logging out...");
                     return;  // Exit menu loop to log out
                 default:
@@ -57,13 +49,13 @@ public class ClientMenu {
     }
 
     private static int getClientId(String username) {
-        String query = "SELECT client_id FROM clients WHERE username = ?";
+        String query = "SELECT id FROM clients WHERE username = ?";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt("client_id");
+                return rs.getInt("id");
             }
         } catch (SQLException e) {
             System.out.println("Error: Unable to retrieve client ID.");
@@ -74,7 +66,7 @@ public class ClientMenu {
 
     private static void viewBookings() {
         System.out.println("\n--- Your Bookings ---");
-        String query = "SELECT * FROM bookings WHERE client_id = ?";
+        String query = "SELECT * FROM bookings WHERE booking_id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -109,7 +101,7 @@ public class ClientMenu {
             int offeringId = scanner.nextInt();
             scanner.nextLine();  // Consume newline
 
-            String bookingQuery = "INSERT INTO bookings (client_id, offering_id) VALUES (?, ?)";
+            String bookingQuery = "INSERT INTO bookings (booking_id,  user_id, offering_id) VALUES (?, ?)";
             try (PreparedStatement bookingStmt = conn.prepareStatement(bookingQuery)) {
                 bookingStmt.setInt(1, clientId);
                 bookingStmt.setInt(2, offeringId);
@@ -129,7 +121,7 @@ public class ClientMenu {
     // Implement the cancelBooking method with listing of current bookings
     private static void cancelBooking() {
         System.out.println("\n--- Your Current Bookings ---");
-        String query = "SELECT booking_id, offering_id FROM bookings WHERE client_id = ?";
+        String query = "SELECT booking_id, offering_id FROM bookings WHERE user_id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -145,7 +137,7 @@ public class ClientMenu {
             int bookingId = scanner.nextInt();
             scanner.nextLine();  // Consume newline
 
-            String deleteQuery = "DELETE FROM bookings WHERE booking_id = ? AND client_id = ?";
+            String deleteQuery = "DELETE FROM bookings WHERE booking_id = ? AND user_id = ?";
             try (PreparedStatement deleteStmt = conn.prepareStatement(deleteQuery)) {
                 deleteStmt.setInt(1, bookingId);
                 deleteStmt.setInt(2, clientId);
@@ -181,6 +173,6 @@ public class ClientMenu {
     }
 
     private static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/LearningCenter", "username", "password");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/LearningCenter", "root", "Moha514#");
     }
 }

@@ -143,19 +143,29 @@ public class AdminMenu {
     }
 
     private static void addOffering() {
-        System.out.print("Enter lesson ID: ");
-        int lessonId = scanner.nextInt();
-        System.out.print("Enter location ID: ");
-        int locationId = scanner.nextInt();
-        System.out.print("Enter instructor ID: ");
-        int instructorId = scanner.nextInt();
+        System.out.print("Enter offering ID: ");
+        int offeringId = scanner.nextInt();
 
-        String query = "INSERT INTO offerings (lesson_id, location_id, instructor_id, is_available) VALUES (?, ?, ?, true)";
+        scanner.nextLine(); // Consume the leftover newline character
+
+        System.out.print("Enter the title of the offering: ");
+        String offeringTitle = scanner.nextLine();
+
+        System.out.print("Enter the description of the offering: ");
+        String offeringDescription = scanner.nextLine();
+
+
+
+
+
+
+
+    String query = "INSERT INTO offerings (offering_id, title, description, instructor_id) VALUES (?, ?, ?, true)";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, lessonId);
-            stmt.setInt(2, locationId);
-            stmt.setInt(3, instructorId);
+            stmt.setInt(1, offeringId);
+            stmt.setNString(2, offeringTitle);
+            stmt.setNString(3, offeringDescription);
             stmt.executeUpdate();
             System.out.println("Offering added successfully.");
         } catch (SQLException e) {

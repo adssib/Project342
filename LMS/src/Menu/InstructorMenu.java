@@ -121,6 +121,6 @@ public class InstructorMenu {
     // Placeholder for the getConnection method; replace with actual database connection code
     private static Connection getConnection() throws SQLException {
         // Example database connection URL, replace with actual credentials
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/LearningCenter", "username", "password");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/LearningCenter", "root", "Moha514#");
     }
 }

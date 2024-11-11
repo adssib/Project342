@@ -84,7 +84,7 @@ public class Main {
             }
 
             // Check if the user exists in the 'instructors' table
-            query = "SELECT * FROM instructors WHERE username = ? AND password = ?";
+            query = "SELECT * FROM instructors WHERE name = ? AND password = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.setString(1, username);
                 stmt.setString(2, password);
@@ -97,7 +97,7 @@ public class Main {
             }
 
             // Check if the user exists in the 'admins' table
-            query = "SELECT * FROM admins WHERE username = ? AND password = ?";
+            query = "SELECT * FROM admin WHERE name = ? AND password = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.setString(1, username);
                 stmt.setString(2, password);
