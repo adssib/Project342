@@ -84,27 +84,34 @@ public class ClientMenu {
     // Implement the makeBooking method with instructor filter
     private static void makeBooking() {
         System.out.println("\n--- Available Offerings with Instructors ---");
-        String query = "SELECT o.offering_id, o.title, o.description, o.date, i.instructor_id " +
+        String query = "SELECT o.offering_id, o.title, o.description, i.instructor_id " +
                 "FROM offerings o JOIN instructors i ON o.instructor_id = i.instructor_id";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
+            // Display available offerings with instructors
             while (rs.next()) {
-                System.out.printf("Offering ID: %d | Title: %s | Description: %s | Date: %s | Instructor ID: %d%n",
+                System.out.printf("Offering ID: %d | Title: %s | Description: %s | Instructor ID: %d%n",
                         rs.getInt("offering_id"), rs.getString("title"), rs.getString("description"),
-                        rs.getDate("date"), rs.getInt("instructor_id"));
+                        rs.getInt("instructor_id"));
             }
 
             System.out.print("\nEnter the Offering ID you would like to book: ");
             int offeringId = scanner.nextInt();
             scanner.nextLine();  // Consume newline
 
-            String bookingQuery = "INSERT INTO bookings (booking_id,  user_id, offering_id) VALUES (?, ?)";
+            // Make sure the clientId is correctly assigned (retrieve from login or session)
+            int cID = clientId;  // Replace with actual client ID logic
+
+            // Ensure all required fields are included in the INSERT query
+            String bookingQuery = "INSERT INTO bookings (user_id, offering_id) VALUES (?, ?)";
+
             try (PreparedStatement bookingStmt = conn.prepareStatement(bookingQuery)) {
                 bookingStmt.setInt(1, clientId);
                 bookingStmt.setInt(2, offeringId);
+
                 int rowsAffected = bookingStmt.executeUpdate();
                 if (rowsAffected > 0) {
                     System.out.println("Booking successfully created!");
@@ -117,6 +124,7 @@ public class ClientMenu {
             e.printStackTrace();
         }
     }
+
 
     // Implement the cancelBooking method with listing of current bookings
     private static void cancelBooking() {
@@ -162,10 +170,13 @@ public class ClientMenu {
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                System.out.printf("Offering ID: %d | Title: %s | Description: %s | Date: %s%n",
+                System.out.printf("Offering ID: %d | Title: %s | Description: %s ",
                         rs.getInt("offering_id"), rs.getString("title"),
-                        rs.getString("description"), rs.getDate("date"));
+                        rs.getString("description"));
             }
+
+            System.out.println();
+
         } catch (SQLException e) {
             System.out.println("Error: Unable to retrieve public offerings.");
             e.printStackTrace();

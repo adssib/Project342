@@ -67,7 +67,7 @@ public class AdminMenu {
                     "UNION ALL " +
                     "SELECT 'Instructor' as role, username, phone_number FROM instructors " +
                     "UNION ALL " +
-                    "SELECT 'Admin' as role, username, phone_number FROM admins";
+                    "SELECT 'Admin' as role, username, phone_number FROM admin";
 
             try (PreparedStatement stmt = conn.prepareStatement(query);
                  ResultSet rs = stmt.executeQuery()) {
@@ -129,18 +129,26 @@ public class AdminMenu {
     }
 
     private static void viewAllOfferings() {
+        String query = "SELECT offering_id, title, description, instructor_id FROM offerings";
+
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM offerings")) {
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            System.out.println("--- All Offerings ---");
+
             while (rs.next()) {
-                System.out.printf("ID: %d | Lesson: %s | Location: %s | Instructor ID: %d | Available: %b%n",
-                        rs.getInt("offering_id"), rs.getString("lesson"), rs.getString("location"),
-                        rs.getInt("instructor_id"), rs.getBoolean("is_available"));
+                System.out.printf("ID: %d | Title: %s | Description: %s | Instructor ID: %s%n",
+                        rs.getInt("offering_id"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getObject("instructor_id") != null ? rs.getInt("instructor_id") : "None");  // Handle null instructor
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     private static void addOffering() {
         System.out.print("Enter offering ID: ");
@@ -174,14 +182,25 @@ public class AdminMenu {
     }
 
     private static void deleteOffering() {
+        // Step 1: Display all offerings
+        viewAllOfferings();  // Call the method to view all offerings
+
+        // Step 2: Prompt user to enter the offering ID to delete
         System.out.print("Enter offering ID to delete: ");
         int offeringId = scanner.nextInt();
 
+        // Step 3: Prepare SQL query to delete the offering
         String query = "DELETE FROM offerings WHERE offering_id = ?";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            // Set the offering ID in the query
             stmt.setInt(1, offeringId);
+
+            // Execute the delete operation
             int rowsAffected = stmt.executeUpdate();
+
+            // Step 4: Check if the offering was deleted
             if (rowsAffected > 0) {
                 System.out.println("Offering deleted successfully.");
             } else {
@@ -191,6 +210,7 @@ public class AdminMenu {
             e.printStackTrace();
         }
     }
+
 
     private static void manageBookings() {
         System.out.println("\n--- Manage Bookings ---");
