@@ -59,7 +59,6 @@ public class Main {
         }
     }
 
-    // Login method, validates user credentials against MySQL
     private static void login() {
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
@@ -67,6 +66,7 @@ public class Main {
         String password = scanner.nextLine();
 
         try (Connection conn = getConnection()) {
+            // Check if the user exists in the 'clients' table
             String query = "SELECT * FROM clients WHERE username = ? AND password = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.setString(1, username);
@@ -74,15 +74,46 @@ public class Main {
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     System.out.println("Login successful! Welcome, " + username + ".");
-                } else {
-                    System.out.println("Invalid username or password.");
+                    ClientMenu();  // Redirect to ClientMenu
+                    return;
                 }
             }
+
+            // Check if the user exists in the 'instructors' table
+            query = "SELECT * FROM instructors WHERE username = ? AND password = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, username);
+                stmt.setString(2, password);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    System.out.println("Login successful! Welcome, " + username + ".");
+                    InstructorMenu();  // Redirect to InstructorMenu
+                    return;
+                }
+            }
+
+            // Check if the user exists in the 'admins' table
+            query = "SELECT * FROM admin WHERE username = ? AND password = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, username);
+                stmt.setString(2, password);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    System.out.println("Login successful! Welcome, " + username + ".");
+                    AdminMenu();  // Redirect to AdminMenu
+                    return;
+                }
+            }
+
+            // If no user found
+            System.out.println("Invalid username or password.");
+
         } catch (SQLException e) {
             System.out.println("Error: Unable to perform login.");
             e.printStackTrace();
         }
     }
+
 
     private static void register() {
         System.out.print("Enter new username: ");
