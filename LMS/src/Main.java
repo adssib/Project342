@@ -1,90 +1,87 @@
-import Data.Geography.OrganisationData;
-import Geography.Organisation;
-import UserManagment.User;
-import UserManagment.Client;
-import UserManagment.Admin;
-import Services.Offering;
-
-import java.util.InputMismatchException;
+import java.sql.*;
 import java.util.Scanner;
-import java.util.List;
 
 public class Main {
-    private static Organisation org;
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        OrganisationData.generateOrganisationData();
-        org = OrganisationData.getOrganisation();
-
         while (true) {
-            User currentUser = publicMenu();
-            if (currentUser != null) {
-                Menu.generateMenu(currentUser);
-            }
+            showMainMenu();
         }
     }
 
-    private static User publicMenu() {
-        while (true) {
-            System.out.println("\nWelcome to the Learning Center");
-            System.out.println("1. Login");
-            System.out.println("2. Register");
-            System.out.println("3. View Public Offerings");
-            System.out.println("4. Exit");
-            System.out.print("Choose an option: ");
+    // Display the main menu
+    private static void showMainMenu() {
+        System.out.println("\nWelcome to the Learning Center");
+        System.out.println("1. Login");
+        System.out.println("2. Register");
+        System.out.println("3. View Public Offerings");
+        System.out.println("4. Exit");
+        System.out.print("Choose an option: ");
 
-            int choice = 0 ;
-            boolean isCorrectInput = true;
-            while(isCorrectInput) {
-                try{
-                    choice = scanner.nextInt();
-                    isCorrectInput = false;
-                }catch(InputMismatchException e){
-                    System.out.println("Please enter a valid Number!");
-                    break;
-                }
-            }
+        int choice = 0;
+        try {
+            choice = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a valid number!");
+            return;
+        }
 
-            scanner.nextLine(); // Consume newline
-
-            switch (choice) {
-                case 1:
-                    return login();
-                case 2:
-                    register();
-                    break;
-                case 3:
-                    //viewPublicOfferings();
-                    break;
-                case 4:
-                    System.out.println("Goodbye!");
-                    System.exit(0);
-                default:
-                    System.out.println("Invalid option. Please try again.");
-            }
+        switch (choice) {
+            case 1:
+                login();
+                break;
+            case 2:
+                register();
+                break;
+            case 3:
+                viewPublicOfferings();
+                break;
+            case 4:
+                System.out.println("Goodbye!");
+                System.exit(0);
+            default:
+                System.out.println("Invalid option. Please try again.");
         }
     }
 
-    private static User login() {
+    // Establish MySQL Database Connection
+    private static Connection getConnection() {
+        String url = "jdbc:mysql://localhost:3306/LearningCenter";
+        String user = "root"; // Replace with your MySQL username
+        String password = "Moha514#"; // Replace with your MySQL password
+        try {
+            return DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to connect to the database.");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Login method, validates user credentials against MySQL
+    private static void login() {
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
 
-        if (username.equals("admin") && password.equals("admin")) {
-            return new Admin(0, "Admin", "admin", "0000000000");
-        }
-
-        for (User user : org.getUsers()) {
-            if (user.logIn(username, password)) {
-                System.out.println("Login successful!");
-                return user;
+        try (Connection conn = getConnection()) {
+            String query = "SELECT * FROM clients WHERE username = ? AND password = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, username);
+                stmt.setString(2, password);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    System.out.println("Login successful! Welcome, " + username + ".");
+                } else {
+                    System.out.println("Invalid username or password.");
+                }
             }
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to perform login.");
+            e.printStackTrace();
         }
-
-        System.out.println("Invalid username or password. Please try again.");
-        return null;
     }
 
     private static void register() {
@@ -95,20 +92,57 @@ public class Main {
         System.out.print("Enter phone number: ");
         String phoneNumber = scanner.nextLine();
 
-        int newUserId = org.getUsers().size() + 1; // Simple way to generate a new ID
-        Client newClient = new Client(newUserId, username, password, phoneNumber);
-        org.addUser(newClient);
-        System.out.println("Registration successful! You can now login.");
+        // Ask whether the user is a client or an instructor
+        System.out.print("Are you a client or an instructor? (Enter 'client' or 'instructor'): ");
+        String role = scanner.nextLine().toLowerCase();
+
+        String query = "";
+        String tableName = "";
+
+        // Determine which table to insert based on role
+        if ("client".equals(role)) {
+            tableName = "clients";
+        } else if ("instructor".equals(role)) {
+            tableName = "instructors";
+        } else {
+            System.out.println("Invalid role. Please enter 'client' or 'instructor'.");
+            return;
+        }
+
+        // Prepare the SQL insert query
+        query = "INSERT INTO " + tableName + " (username, password, phone_number) VALUES (?, ?, ?)";
+
+        try (Connection conn = getConnection()) {
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, username);
+                stmt.setString(2, password);
+                stmt.setString(3, phoneNumber);
+                stmt.executeUpdate();
+                System.out.println("Registration successful! You can now log in.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to register the user.");
+            e.printStackTrace();
+        }
     }
 
-//    private static void viewPublicOfferings() {
-//        List<Offering> offerings = Offering.getAllOfferings();
-//        System.out.println("\nPublic Offerings:");
-//        for (Offering offering : offerings) {
-//            if (offering.isAvailable()) {
-//                System.out.println("Offering : " + offering.toString());
-//                System.out.println("--------------------");
-//            }
-//        }
- //   }
+
+    // Method to view public offerings from MySQL database
+    private static void viewPublicOfferings() {
+        try (Connection conn = getConnection()) {
+            String query = "SELECT * FROM offerings WHERE is_available = 1";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                ResultSet rs = stmt.executeQuery();
+                System.out.println("\nPublic Offerings:");
+                while (rs.next()) {
+                    System.out.println("Offering: " + rs.getString("name"));
+                    System.out.println("Description: " + rs.getString("description"));
+                    System.out.println("--------------------");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to fetch offerings.");
+            e.printStackTrace();
+        }
+    }
 }
