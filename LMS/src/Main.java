@@ -1,4 +1,5 @@
 import Menu.AdminMenu;
+import Menu.ClientMenu;
 
 import java.sql.*;
 import java.util.Scanner;
@@ -76,7 +77,7 @@ public class Main {
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     System.out.println("Login successful! Welcome, " + username + ".");
-                    ClientMenu();  // Redirect to ClientMenu
+                    ClientMenu.displayClientMenu(username);  // Redirect to ClientMenu
                     return;
                 }
             }
