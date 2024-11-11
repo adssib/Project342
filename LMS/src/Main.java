@@ -1,5 +1,6 @@
 import Menu.AdminMenu;
 import Menu.ClientMenu;
+import Menu.InstructorMenu;
 
 import java.sql.*;
 import java.util.Scanner;
@@ -90,13 +91,13 @@ public class Main {
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     System.out.println("Login successful! Welcome, " + username + ".");
-                    InstructorMenu();  // Redirect to InstructorMenu
+                    InstructorMenu.displayInstructorMenu(username);  // Redirect to InstructorMenu
                     return;
                 }
             }
 
             // Check if the user exists in the 'admins' table
-            query = "SELECT * FROM admin WHERE username = ? AND password = ?";
+            query = "SELECT * FROM admins WHERE username = ? AND password = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.setString(1, username);
                 stmt.setString(2, password);

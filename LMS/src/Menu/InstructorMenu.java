@@ -1,234 +1,126 @@
-//package Menu;
-//
-//import Data.Geography.CityDataGenerator;
-//import Data.Geography.OrganisationData;
-//import Geography.City;
-//import Services.Offering;
-//import UserManagment.Instructor;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Scanner;
-//
-//public class InstructorMenu {
-//    public static void instructorMenu(Instructor instructor, Scanner scanner) {
-//        boolean isDone = false;
-//        while (!isDone) {
-//            System.out.println("\nInstructor Menu");
-//            System.out.println("1. View Available Cities");
-//            System.out.println("2. View Taken Offerings");
-//            System.out.println("3. Take New Offering");
-//            System.out.println("4. View Profile");
-//            System.out.println("5. Add Available Cities");
-//            System.out.println("6. Logout");
-//            System.out.print("Choose an option: ");
-//
-//            int choice = scanner.nextInt();
-//            scanner.nextLine(); // Consume newline
-//
-//            switch (choice) {
-//                case 1:
-//                    System.out.println("Viewing Available Cities...");
-//                    List<City> cities= instructor.getAvailable();
-//                    if(cities.isEmpty()){
-//                        System.out.println("No cities available");
-//                    }else {
-//                        for (City city : cities) {
-//                            System.out.println(city.getCityName());
-//                        }
-//                    }
-//                    break;
-//                case 2:
-//                    System.out.println("Viewing Taken Offerings...");
-//                    List<Offering> offerings = instructor.getTakenOfferings();
-//                    if(offerings.isEmpty()){
-//                        System.out.println("No offerings available");
-//                    }else{
-//                        for (Offering offering : offerings) {
-//                            System.out.println("Offering ID: " + offering.getOfferingId() +
-//                                    ", Lesson: " + offering.getLesson().getTypeOfLesson());
-//                        }
-//                    }
-//                    break;
-//                case 3:
-//                    System.out.println("Taking New Offering...");
-//                    takeNewOffering(instructor, scanner);
-//                    break;
-//                case 4:
-//                    System.out.println("Viewing Profile...");
-//                    System.out.println("Name: " + instructor.getUserName());
-//                    System.out.println("Specialisation: " + instructor.getSpecialisation());
-//                    System.out.println("Phone: " + instructor.getPhoneNumber());
-//                    break;
-//                case 5:
-//                    System.out.println("Adding Available Cities...");
-//                    ManageAvailableCities(instructor, scanner);
-//                case 6:
-//                    System.out.println("Logging out...");
-//                    isDone = true;
-//                    break;
-//                default:
-//                    System.out.println("Invalid option. Please try again.");
-//            }
-//        }
-//    }
-//
-//    private static void ManageAvailableCities(Instructor instructor, Scanner scanner) {
-//        boolean isDone = false;
-//        while (!isDone) {
-//            List<City> availableCities = instructor.getAvailable();
-//            System.out.println("\nManage Available Cities");
-//            System.out.println("1. View Available Cities");
-//            System.out.println("2. Add City");
-//            System.out.println("3. Remove City");
-//            System.out.println("4. Back to Instructor Menu");
-//            System.out.print("Choose an option: ");
-//
-//            int choice = scanner.nextInt();
-//            scanner.nextLine(); // Consume newline
-//
-//            switch (choice) {
-//                case 1:
-//                    viewAvailableCities(availableCities);
-//                    break;
-//                case 2:
-//                    addCity(instructor, scanner);
-//                    break;
-//                case 3:
-//                    removeCity(instructor, scanner);
-//                    break;
-//                case 4:
-//                    isDone = true;
-//                    break;
-//                default:
-//                    System.out.println("Invalid option. Please try again.");
-//            }
-//        }
-//    }
-//
-//    private static void viewAvailableCities(List<City> cities) {
-//        if (cities.isEmpty()) {
-//            System.out.println("You have no available cities.");
-//        } else {
-//            System.out.println("Your Available Cities:");
-//            for (int i = 0; i < cities.size(); i++) {
-//                System.out.println((i + 1) + ". " + cities.get(i).getCityName());
-//            }
-//        }
-//    }
-//
-//    private static void addCity(Instructor instructor, Scanner scanner) {
-//        List<City> allCities = CityDataGenerator.generateCities();
-//        List<City> availableCities = instructor.getAvailable();
-//
-//        System.out.println("Cities you can add:");
-//        List<City> addableCities = new ArrayList<>();
-//        for (City city : allCities) {
-//            if (!availableCities.contains(city)) {
-//                addableCities.add(city);
-//                System.out.println((addableCities.size()) + ". " + city.getCityName());
-//            }
-//        }
-//
-//        if (addableCities.isEmpty()) {
-//            System.out.println("There are no more cities you can add.");
-//            return;
-//        }
-//
-//        System.out.print("Enter the number of the city you want to add (0 to cancel): ");
-//        int choice = scanner.nextInt();
-//        scanner.nextLine(); // Consume newline
-//
-//        if (choice > 0 && choice <= addableCities.size()) {
-//            City selectedCity = addableCities.get(choice - 1);
-//            instructor.addCity(selectedCity);
-//            System.out.println("Added " + selectedCity.getCityName() + " to your available cities.");
-//        } else if (choice != 0) {
-//            System.out.println("Invalid selection. Please try again.");
-//        }
-//    }
-//
-//    private static void removeCity(Instructor instructor, Scanner scanner) {
-//        List<City> availableCities = instructor.getAvailable();
-//
-//        if (availableCities.isEmpty()) {
-//            System.out.println("You have no cities to remove.");
-//            return;
-//        }
-//
-//        System.out.println("Your available cities:");
-//        for (int i = 0; i < availableCities.size(); i++) {
-//            System.out.println((i + 1) + ". " + availableCities.get(i).getCityName());
-//        }
-//
-//        System.out.print("Enter the number of the city you want to remove (0 to cancel): ");
-//        int choice = scanner.nextInt();
-//        scanner.nextLine(); // Consume newline
-//
-//        if (choice > 0 && choice <= availableCities.size()) {
-//            City selectedCity = availableCities.get(choice - 1);
-//            availableCities.remove(selectedCity);
-//            System.out.println("Removed " + selectedCity.getCityName() + " from your available cities.");
-//        } else if (choice != 0) {
-//            System.out.println("Invalid selection. Please try again.");
-//        }
-//    }
-//
-//    private static void takeNewOffering(Instructor instructor, Scanner scanner) {
-//        System.out.println("Available Offerings:");
-//        List<Offering> availableOfferings = getAvailableOfferings(instructor);
-//
-//        if (availableOfferings.isEmpty()) {
-//            System.out.println("No available offerings match your cities and specialization.");
-//            return;
-//        }
-//
-//        for (int i = 0; i < availableOfferings.size(); i++) {
-//            Offering offering = availableOfferings.get(i);
-//            System.out.println((i + 1) + ". Offering ID: " + offering.getOfferingId() +
-//                    ", Lesson: " + offering.getLesson().getTypeOfLesson() +
-//                    ", City: " + offering.getLocation().getCity().getCityName());
-//        }
-//
-//        System.out.print("Enter the number of the offering you want to take (0 to cancel): ");
-//        int choice = scanner.nextInt();
-//        scanner.nextLine(); // Consume newline
-//
-//        if (choice > 0 && choice <= availableOfferings.size()) {
-//            Offering selectedOffering = availableOfferings.get(choice - 1);
-//
-//            // Check if the offering's city is in the instructor's available cities
-//            if (instructor.getAvailable().contains(selectedOffering.getLocation().getCity())) {
-//                boolean success = instructor.takeOffering(selectedOffering);
-//                if (success) {
-//                    selectedOffering.setAvailable(true);  // Update the isAvailable status
-//                    System.out.println("You have successfully taken the offering.");
-//                } else {
-//                    System.out.println("Unable to take the offering. Please try again.");
-//                }
-//            } else {
-//                System.out.println("This offering is not in one of your available cities. You cannot take it.");
-//            }
-//        } else if (choice != 0) {
-//            System.out.println("Invalid selection. Please try again.");
-//        }
-//    }
-//
-//    private static List<Offering> getAvailableOfferings(Instructor instructor) {
-//        List<Offering> availableOfferings = new ArrayList<>();
-//        List<Offering> allOfferings = OrganisationData.getOrganisation().getOfferings();
-//
-//        for (Offering offering : allOfferings) {
-//            if (offering.getInstructor() == null &&
-//                    instructor.getAvailable().contains(offering.getLocation().getCity()) &&
-//                    instructor.getSpecialisation().equals(offering.getLesson().getTypeOfLesson()) &&
-//                    !offering.isAvailable()) {  // Check if the offering is not already taken
-//                availableOfferings.add(offering);
-//            }
-//        }
-//
-//        return availableOfferings;
-//    }
-//
-//
-//}
+package Menu;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class InstructorMenu {
+    private static final Scanner scanner = new Scanner(System.in);
+    private static int instructorId;  // To store the instructor ID
+
+    // Entry point to display the instructor menu options
+    public static void displayInstructorMenu(String username) {
+        instructorId = getInstructor(username);  // Retrieve instructorId based on username
+        if (instructorId == -1) {
+            System.out.println("Error: Instructor ID not found for the given username.");
+            return;  // Exit if instructor ID cannot be retrieved
+        }
+
+        while (true) {
+            System.out.println("\n--- Instructor Menu ---");
+            System.out.println("1. View Offerings");
+            System.out.println("2. Take New Offering");
+            System.out.println("3. Logout");
+            System.out.print("Choose an option: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+
+            switch (choice) {
+                case 1:
+                    viewOfferings();
+                    break;
+                case 2:
+                    takeOffering();
+                    break;
+                case 3:
+                    System.out.println("Logging out...");
+                    return;  // Exit menu loop to log out
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+
+    // Retrieve the instructor's ID based on the username
+    private static int getInstructor(String username) {
+        String query = "SELECT instructor_id FROM instructors WHERE username = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("instructor_id");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to retrieve instructor ID.");
+            e.printStackTrace();
+        }
+        return -1;  // Return -1 if instructor ID could not be found
+    }
+
+    // View the offerings that do not have an instructor assigned
+    private static void viewOfferings() {
+        System.out.println("\n--- Offerings without Instructor ---");
+        String query = "SELECT offering_id, title, description FROM offerings WHERE instructor_id IS NULL";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.isBeforeFirst()) {
+                System.out.println("No offerings available without an instructor.");
+                return;
+            }
+
+            System.out.println("Offerings without instructor:");
+            while (rs.next()) {
+                System.out.printf("Offering ID: %d | Title: %s | Description: %s%n",
+                        rs.getInt("offering_id"), rs.getString("title"),
+                        rs.getString("description"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to retrieve offerings.");
+            e.printStackTrace();
+        }
+    }
+
+    // Allow the instructor to take a new offering (assigning an instructor to an offering)
+    private static void takeOffering() {
+        System.out.print("Enter the Offering ID you want to take: ");
+        int offeringId = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+
+        // Check if the offering is available (not already assigned to an instructor)
+        String checkQuery = "SELECT offering_id FROM offerings WHERE offering_id = ? AND instructor_id IS NULL";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(checkQuery)) {
+            stmt.setInt(1, offeringId);
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                System.out.println("This offering is either already assigned or does not exist.");
+                return;
+            }
+
+            // Assign the offering to the instructor
+            String assignQuery = "UPDATE offerings SET instructor_id = ? WHERE offering_id = ?";
+            try (PreparedStatement assignStmt = conn.prepareStatement(assignQuery)) {
+                assignStmt.setInt(1, instructorId);  // Assign the current instructor
+                assignStmt.setInt(2, offeringId);
+                int rowsAffected = assignStmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("You have successfully taken the offering!");
+                } else {
+                    System.out.println("Error: Unable to assign the offering.");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: Unable to take the offering.");
+            e.printStackTrace();
+        }
+    }
+
+    // Placeholder for the getConnection method; replace with actual database connection code
+    private static Connection getConnection() throws SQLException {
+        // Example database connection URL, replace with actual credentials
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/LearningCenter", "username", "password");
+    }
+}

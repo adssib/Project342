@@ -67,7 +67,7 @@ public class AdminMenu {
                     "UNION ALL " +
                     "SELECT 'Instructor' as role, username, phone_number FROM instructors " +
                     "UNION ALL " +
-                    "SELECT 'Admin' as role, username, phone_number FROM admin";
+                    "SELECT 'Admin' as role, username, phone_number FROM admins";
 
             try (PreparedStatement stmt = conn.prepareStatement(query);
                  ResultSet rs = stmt.executeQuery()) {
