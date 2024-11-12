@@ -172,9 +172,10 @@ public class ClientMenu {
                 System.out.printf("Offering ID: %d | Title: %s | Description: %s ",
                         rs.getInt("offering_id"), rs.getString("title"),
                         rs.getString("description"));
+                System.out.println();
+
             }
 
-            System.out.println();
 
         } catch (SQLException e) {
             System.out.println("Error: Unable to retrieve public offerings.");
