@@ -84,8 +84,7 @@ public class ClientMenu {
     // Implement the makeBooking method with instructor filter
     private static void makeBooking() {
         System.out.println("\n--- Available Offerings with Instructors ---");
-        String query = "SELECT o.offering_id, o.title, o.description, i.instructor_id " +
-                "FROM offerings o JOIN instructors i ON o.instructor_id = i.instructor_id";
+        String query = "SELECT * FROM offerings";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
