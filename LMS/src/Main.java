@@ -49,19 +49,6 @@ public class Main {
         }
     }
 
-    // Establish MySQL Database Connection
-    private static Connection getConnection() {
-        String url = "jdbc:mysql://localhost:3306/LearningCenter";
-        String user = "root"; // Replace with your MySQL username
-        String password = "Moha514#"; // Replace with your MySQL password
-        try {
-            return DriverManager.getConnection(url, user, password);
-        } catch (SQLException e) {
-            System.out.println("Error: Unable to connect to the database.");
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     private static void login() {
         System.out.print("Enter username: ");
@@ -69,7 +56,7 @@ public class Main {
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
 
-        try (Connection conn = getConnection()) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
             // Check if the user exists in the 'clients' table
             String query = "SELECT * FROM clients WHERE username = ? AND password = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -147,7 +134,7 @@ public class Main {
         // Prepare the SQL insert query
         query = "INSERT INTO " + tableName + " (username, password, phone_number) VALUES (?, ?, ?)";
 
-        try (Connection conn = getConnection()) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.setString(1, username);
                 stmt.setString(2, password);
@@ -164,7 +151,7 @@ public class Main {
 
     // Method to view public offerings from MySQL database
     private static void viewPublicOfferings() {
-        try (Connection conn = getConnection()) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
             String query = "SELECT * FROM offerings WHERE is_available = 1";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 ResultSet rs = stmt.executeQuery();
