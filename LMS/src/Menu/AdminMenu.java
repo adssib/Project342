@@ -162,13 +162,8 @@ public class AdminMenu {
         System.out.print("Enter the description of the offering: ");
         String offeringDescription = scanner.nextLine();
 
-
-
-
-
-
-
-    String query = "INSERT INTO offerings (offering_id, title, description, instructor_id) VALUES (?, ?, ?, true)";
+        // Update the SQL query to insert NULL for instructor_id
+        String query = "INSERT INTO offerings (offering_id, title, description, instructor_id) VALUES (?, ?, ?, NULL)";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, offeringId);
@@ -180,6 +175,7 @@ public class AdminMenu {
             e.printStackTrace();
         }
     }
+
 
     private static void deleteOffering() {
         // Step 1: Display all offerings
