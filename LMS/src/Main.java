@@ -151,20 +151,28 @@ public class Main {
 
     // Method to view public offerings from MySQL database
     private static void viewPublicOfferings() {
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            String query = "SELECT * FROM offerings WHERE is_available = 1";
-            try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                ResultSet rs = stmt.executeQuery();
-                System.out.println("\nPublic Offerings:");
-                while (rs.next()) {
-                    System.out.println("Offering: " + rs.getString("name"));
-                    System.out.println("Description: " + rs.getString("description"));
-                    System.out.println("--------------------");
-                }
+
+        String query = "SELECT * FROM offerings WHERE instructor_id IS NOT NULL";
+
+        System.out.println("\n--- Available Offerings with Instructors ---");
+
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                System.out.printf("Offering ID: %d | Title: %s | Description: %s ",
+                        rs.getInt("offering_id"), rs.getString("title"),
+                        rs.getString("description"));
+                System.out.println();
+
             }
+
+
         } catch (SQLException e) {
-            System.out.println("Error: Unable to fetch offerings.");
+            System.out.println("Error: Unable to retrieve public offerings.");
             e.printStackTrace();
         }
     }
+
 }

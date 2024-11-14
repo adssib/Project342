@@ -187,8 +187,11 @@ public class ClientMenu {
     }
 
     private static void viewPublicOfferings() {
-        System.out.println("\n--- Public Offerings ---");
-        String query = "SELECT * FROM offerings";
+
+        String query = "SELECT * FROM offerings WHERE instructor_id IS NOT NULL";
+
+
+        System.out.println("\n--- Available Offerings with Instructors ---");
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
