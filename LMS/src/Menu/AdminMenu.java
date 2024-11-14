@@ -138,11 +138,16 @@ public class AdminMenu {
             System.out.println("--- All Offerings ---");
 
             while (rs.next()) {
+                int offeringId = rs.getInt("offering_id");
+                String title = rs.getString("title");
+                String description = rs.getString("description");
+                Object instructorId = rs.getObject("instructor_id");  // Retrieve the instructor_id as an Object
+
+                // Handle null instructor_id
+                String instructorDisplay = (instructorId != null) ? String.valueOf(instructorId) : "None";
+
                 System.out.printf("ID: %d | Title: %s | Description: %s | Instructor ID: %s%n",
-                        rs.getInt("offering_id"),
-                        rs.getString("title"),
-                        rs.getString("description"),
-                        rs.getObject("instructor_id") != null ? rs.getInt("instructor_id") : "None");  // Handle null instructor
+                        offeringId, title, description, instructorDisplay);
             }
         } catch (SQLException e) {
             e.printStackTrace();
