@@ -49,13 +49,13 @@ public class ClientMenu {
     }
 
     private static int getClientId(String username) {
-        String query = "SELECT id FROM clients WHERE username = ?";
+        String query = "SELECT client_id FROM clients WHERE username = ?";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt("id");
+                return rs.getInt("client_id");
             }
         } catch (SQLException e) {
             System.out.println("Error: Unable to retrieve client ID.");
@@ -73,8 +73,8 @@ public class ClientMenu {
             stmt.setInt(1, clientId);  // Use clientId to filter bookings
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                System.out.printf("Booking ID: %d | Offering ID: %d | Date: %s%n",
-                        rs.getInt("booking_id"), rs.getInt("offering_id"), rs.getDate("date"));
+                System.out.printf("Booking ID: %d | Offering ID: %d | User ID: %s%n",
+                        rs.getInt("booking_id"), rs.getInt("offering_id"), rs.getInt("user_id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,22 +84,46 @@ public class ClientMenu {
     // Implement the makeBooking method with instructor filter
     private static void makeBooking() {
         System.out.println("\n--- Available Offerings with Instructors ---");
-        String query = "SELECT * FROM offerings";
+        String query = "SELECT * FROM offerings WHERE instructor_id IS NOT NULL";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
+            // Check if there are any offerings with instructors
+            boolean hasOfferings = false;
+
             // Display available offerings with instructors
             while (rs.next()) {
+                hasOfferings = true; // Set flag to true if offerings are available
                 System.out.printf("Offering ID: %d | Title: %s | Description: %s | Instructor ID: %d%n",
                         rs.getInt("offering_id"), rs.getString("title"), rs.getString("description"),
                         rs.getInt("instructor_id"));
             }
 
-            System.out.print("\nEnter the Offering ID you would like to book: ");
-            int offeringId = scanner.nextInt();
-            scanner.nextLine();  // Consume newline
+            // If no offerings with instructors, inform the user and exit
+            if (!hasOfferings) {
+                System.out.println("No offerings available with instructors. Unable to make a booking.");
+                return; // Exit the method if no offerings are available
+            }
+
+            // Ask the user to select an offering or exit
+            System.out.print("\nEnter the Offering ID you would like to book or type 'exit' to cancel: ");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("exit")) {
+                System.out.println("Exiting booking process.");
+                return; // Exit the booking process
+            }
+
+            // Validate the user input
+            int offeringId;
+            try {
+                offeringId = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid Offering ID or 'exit'.");
+                return; // Exit on invalid input
+            }
 
             // Make sure the clientId is correctly assigned (retrieve from login or session)
             int cID = clientId;  // Replace with actual client ID logic
@@ -123,6 +147,7 @@ public class ClientMenu {
             e.printStackTrace();
         }
     }
+
 
 
     // Implement the cancelBooking method with listing of current bookings
