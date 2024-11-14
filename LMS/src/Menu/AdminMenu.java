@@ -129,7 +129,7 @@ public class AdminMenu {
     }
 
     private static void viewAllOfferings() {
-        String query = "SELECT offering_id, title, description, instructor_id FROM offerings";
+        String query = "SELECT * FROM offerings";
 
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();

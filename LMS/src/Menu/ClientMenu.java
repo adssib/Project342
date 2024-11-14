@@ -66,7 +66,7 @@ public class ClientMenu {
 
     private static void viewBookings() {
         System.out.println("\n--- Your Bookings ---");
-        String query = "SELECT * FROM bookings WHERE booking_id = ?";
+        String query = "SELECT * FROM bookings WHERE user_id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
